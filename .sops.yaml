@@ -1,0 +1,15 @@
+keys:
+  - &admin age1k7jshkc2sxz4qpukga05rcx7a4td5ptu9y0kxv3pjg09cug43gns4e4zqt
+  - &sobremesa age1uch0hhrq5l9plk6k86fkh3cve52yessc2latknuts0swmx0vkgnsxg5d8g
+
+creation_rules:
+  - path_regex: common/secrets\.yaml$
+    key_groups:
+      - age:
+        - *admin
+        - *sobremesa
+  - path_regex: hosts/sobremesa/secrets\.yaml$
+    key_groups:
+      - age:
+        - *admin
+        - *sobremesa
