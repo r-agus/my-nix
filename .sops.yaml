@@ -1,6 +1,7 @@
 keys:
   - &admin age1k7jshkc2sxz4qpukga05rcx7a4td5ptu9y0kxv3pjg09cug43gns4e4zqt
   - &sobremesa age1uch0hhrq5l9plk6k86fkh3cve52yessc2latknuts0swmx0vkgnsxg5d8g
+  - &portatil age15nrak552r79q389ghmwt6sewjetvdmrhajzyhnn6ge96jcgdufds4s4zvr
 
 creation_rules:
   - path_regex: common/secrets\.yaml$
@@ -8,8 +9,14 @@ creation_rules:
       - age:
         - *admin
         - *sobremesa
+        - *portatil
   - path_regex: hosts/sobremesa/secrets\.yaml$
     key_groups:
       - age:
         - *admin
         - *sobremesa
+  - path_regex: hosts/portatil/secrets\.yaml$
+    key_groups:
+      - age:
+        - *admin
+        - *portatil
