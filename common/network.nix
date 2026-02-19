@@ -13,7 +13,7 @@
       sopsFile = ./secrets.yaml;
     };
 
-    # Generamos el perfil de NetworkManager fuera del Nix Store
+    sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
     sops.templates."wg0.nmconnection" = {
       path = "/etc/NetworkManager/system-connections/wg0.nmconnection";
       owner = "root";
