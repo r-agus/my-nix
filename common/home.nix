@@ -39,10 +39,10 @@ in
 
   programs.git = {
     enable = true;
-    userName  = "Ruben Agustin";
-    userEmail = "r.agussglz@gmail.com";
 
-    extraConfig = {
+    settings = {
+      user.name  = "Ruben Agustin";
+      user.email = "r.agussglz@gmail.com";
       init.defaultBranch = "main";
       pull.rebase = true;
       core.editor = "vim";

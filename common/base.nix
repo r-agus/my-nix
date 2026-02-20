@@ -230,6 +230,14 @@
   services.flatpak.enable = true;
   services.udev.packages = [ pkgs.stlink ];
 
+  services.syncthing = {
+    enable = true;
+    user = "ruben";
+    dataDir = "/home/ruben";
+    configDir = "/home/ruben/.config/syncthing";
+    openDefaultPorts = true;
+  };
+
   # services.displayManager.sddm = {
     # enable = true;
     # wayland.enable = true;
