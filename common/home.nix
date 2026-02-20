@@ -17,7 +17,8 @@ in
   home.packages = with pkgs; [
     vdirsyncer
     rclone
-    vesktop 
+    vesktop
+    telegram-desktop
   ];
 
   programs.zsh = {
