@@ -80,7 +80,7 @@
     XDG_MENU_PREFIX = "gnome-";
     XDG_SESSION_TYPE = "wayland";
     XDG_SESSION_DESKTOP = "niri";
-    RUST_SRC_PATH = "${pkgs.rust.packages.stable.rustPlatform.rustLibSrc}";
+    # RUST_SRC_PATH = "${pkgs.rust.packages.stable.rustPlatform.rustLibSrc}";
     DEFAULT_BROWSER = "${pkgs.kdePackages.dolphin}/bin/dolphin";
     # QT_QPA_PLATFORMTHEME = "qt6ct";
     QT_QPA_PLATFORMTHEME = "gtk3";
@@ -117,8 +117,8 @@
     vscode
     inputs.antigravity-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
     inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
-    rustup
-    gcc
+    # rustup
+    # gcc
     stlink
 
     # Dolphin y qt
@@ -283,6 +283,13 @@
   sops.secrets.google_client_secret = {
     sopsFile = ./secrets.yaml;
     owner = config.users.users.ruben.name;
+  };
+
+  sops.secrets."rclone_conf" = {
+    sopsFile = ./secrets.yaml;
+    owner = config.users.users.ruben.name;
+    group = config.users.users.ruben.group;
+    path = "/home/ruben/.config/rclone/rclone.conf";
   };
   
   # Copy the NixOS configuration file and link it from the resulting system
