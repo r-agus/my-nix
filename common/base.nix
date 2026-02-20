@@ -5,6 +5,10 @@
 { config, lib, pkgs, inputs, ... }:
 
 {
+  imports = [
+    inputs.dms.nixosModules.default # O inputs.dms.nixosModules.greeter
+  ];
+
   # Use the GRUB 2 boot loader.
   # boot.loader.grub.enable = true;
   # boot.loader.grub.efiSupport = true;
@@ -138,7 +142,7 @@
     gsettings-desktop-schemas
     pavucontrol
     
-    sddm-astronaut
+    # sddm-astronaut
     swww
 
     p7zip
@@ -237,16 +241,21 @@
   services.flatpak.enable = true;
   services.udev.packages = [ pkgs.stlink ];
 
-  services.displayManager.sddm = {
+  # services.displayManager.sddm = {
+    # enable = true;
+    # wayland.enable = true;
+    # enableHidpi = true;
+    # theme = "sddm-astronaut-theme";
+    # extraPackages = with pkgs; [
+      # kdePackages.qtmultimedia
+      # kdePackages.qtsvg 
+      # kdePackages.qtvirtualkeyboard 
+    # ];
+  # };
+
+  services.displayManager.dms-greeter = {
     enable = true;
-    wayland.enable = true;
-    enableHidpi = true;
-    theme = "sddm-astronaut-theme";
-    extraPackages = with pkgs; [
-      kdePackages.qtmultimedia
-      kdePackages.qtsvg 
-      kdePackages.qtvirtualkeyboard 
-    ];
+    compositor.name = "niri";
   };
 
   # Rebuild sycoca db 
