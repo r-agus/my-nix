@@ -83,7 +83,7 @@
     RUST_SRC_PATH = "${pkgs.rust.packages.stable.rustPlatform.rustLibSrc}";
     DEFAULT_BROWSER = "${pkgs.kdePackages.dolphin}/bin/dolphin";
     # QT_QPA_PLATFORMTHEME = "qt6ct";
-    QT_QPA_PLATFORMTHEME = "kde";
+    QT_QPA_PLATFORMTHEME = "gtk3";
   };
 
   environment.variables = { 
@@ -135,6 +135,7 @@
     kdePackages.kio-extras
     shared-mime-info
     desktop-file-utils
+    libsForQt5.qtstyleplugins
     # gnome-menus # just to find packages, 500KB approx
 
     udisks
