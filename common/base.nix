@@ -115,8 +115,8 @@
     localsend
 
     vscode
-    inputs.antigravity-nix.packages.${pkgs.system}.default
-    inputs.zen-browser.packages."${pkgs.system}".default
+    inputs.antigravity-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
+    inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
     rustup
     gcc
     stlink
