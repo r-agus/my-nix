@@ -28,7 +28,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, sops-nix, ... }@inputs: {
+  outputs = { self, nixpkgs, sops-nix, home-manager, ... }@inputs: {
     nixosConfigurations = {
       
       # PC sobremesa 
@@ -39,7 +39,8 @@
           sops-nix.nixosModules.sops
           ./hosts/sobremesa/default.nix
 
-          home-manager.nixosModules.home-manager {
+          home-manager.nixosModules.home-manager 
+          {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = { inherit inputs; };
@@ -56,7 +57,8 @@
           sops-nix.nixosModules.sops
           ./hosts/portatil/default.nix
 
-          home-manager.nixosModules.home-manager {
+          home-manager.nixosModules.home-manager 
+          {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = { inherit inputs; };
