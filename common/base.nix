@@ -155,19 +155,7 @@
      ];
    };
 
-  programs.zsh = {
-    enable = true;
-    enableCompletion = true;
-    
-    autosuggestions.enable = true;
-    syntaxHighlighting.enable = true;
-
-    ohMyZsh = {
-      enable = true;
-      plugins = [ "git" "sudo" "history" ];
-      theme = "robbyrussell";
-    };
-  };
+  programs.zsh.enable = true;
   programs.dconf.enable = true;
   programs.firefox.enable = true;
   programs.yazi.enable = true;

@@ -18,6 +18,30 @@ in
     vdirsyncer
   ];
 
+  programs.zsh = {
+    enable = true;
+    enableCompletion = true;
+    autosuggestion.enable = true;
+    syntaxHighlighting.enable = true;
+    
+    oh-my-zsh = {
+      enable = true;
+      plugins = [ "git" "sudo" "history" ];
+      theme = "robbyrussell";
+    };
+
+    defaultKeymap = "emacs";
+
+    initContent = ''
+      . "$HOME/.cargo/env"
+    '';
+  };
+
+  programs.fzf = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+
   xdg.configFile = (lib.genAttrs managedFiles (name: {
     source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-config/dotfiles/${name}";
   })) // {
