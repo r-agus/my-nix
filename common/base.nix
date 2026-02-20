@@ -89,6 +89,7 @@
      shell = pkgs.zsh;
      extraGroups = [ "networkmanager" "wheel" "video" ]; # Enable ‘sudo’ for the user.
      initialPassword = "password";
+     homeMode = "711";
      packages = with pkgs; [
        tree
        kitty
