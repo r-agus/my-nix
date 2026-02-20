@@ -144,7 +144,7 @@
     pavucontrol
     
     # sddm-astronaut
-    swww
+    # swww
 
     p7zip
     unrar
