@@ -37,6 +37,18 @@ in
     '';
   };
 
+  programs.git = {
+    enable = true;
+    userName  = "Ruben Agustin";
+    userEmail = "r.agussglz@gmail.com";
+
+    extraConfig = {
+      init.defaultBranch = "main";
+      pull.rebase = true;
+      core.editor = "vim";
+    };
+  };
+
   programs.fzf = {
     enable = true;
     enableZshIntegration = true;
