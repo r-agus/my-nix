@@ -278,6 +278,16 @@
   networking.firewall.allowedTCPPorts = [ 53317 ];
   # Localsend, wireguard
   networking.firewall.allowedUDPPorts = [ 53317 51820 ];
+
+  sops.secrets.google_client_id = {
+    sopsFile = ./secrets.yaml;
+    owner = config.users.users.ruben.name;
+  };
+  
+  sops.secrets.google_client_secret = {
+    sopsFile = ./secrets.yaml;
+    owner = config.users.users.ruben.name;
+  };
   
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
