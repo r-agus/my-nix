@@ -1,5 +1,5 @@
 # common/home.nix
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   dotfilesDir = ../dotfiles;
@@ -10,9 +10,9 @@ in
   home.homeDirectory = "/home/ruben";
 
   # mapea todo dotfiles
-  xdg.configFile = builtins.listToAttrs (map (name: {
+  xdg.configFile = lib.genAttrs managedFiles (name: {
     source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-config/dotfiles/${name}";
-  }) managedFiles);
+  });
 
   # Misma versión que en system.stateVersion
   home.stateVersion = "25.11"; 
