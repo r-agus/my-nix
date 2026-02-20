@@ -11,8 +11,7 @@ in
 
   # mapea todo dotfiles
   xdg.configFile = builtins.listToAttrs (map (name: {
-    inherit name;
-    value = { source = "${dotfilesDir}/${name}"; };
+    source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-config/dotfiles/${name}";
   }) managedFiles);
 
   # Misma versión que en system.stateVersion
