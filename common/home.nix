@@ -7,7 +7,7 @@
 
   # Sincronización declarativa de archivos
   xdg.configFile = {
-    "niri/config.kdl".source = ../dotfiles/niri/config.kdl;
+    "niri".source = ../dotfiles/niri;
     "DankMaterialShell".source = ../dotfiles/DankMaterialShell; 
   };
 
