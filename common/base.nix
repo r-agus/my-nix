@@ -70,6 +70,8 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.libinput.enable = true;
 
+  environment.shells = with pkgs; [ zsh ];
+
   environment.etc."xdg/menus/gnome-applications.menu".source = "${pkgs.gnome-menus}/etc/xdg/menus/gnome-applications.menu";
 
   environment.sessionVariables = {
@@ -80,58 +82,18 @@
     XDG_SESSION_DESKTOP = "niri";
     RUST_SRC_PATH = "${pkgs.rust.packages.stable.rustPlatform.rustLibSrc}";
     DEFAULT_BROWSER = "${pkgs.kdePackages.dolphin}/bin/dolphin";
-    QT_QPA_PLATFORMTHEME = "qt6ct";
+    # QT_QPA_PLATFORMTHEME = "qt6ct";
+    QT_QPA_PLATFORMTHEME = "kde";
   };
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.ruben = {
-     isNormalUser = true;
-     shell = pkgs.zsh;
-     extraGroups = [ "networkmanager" "wheel" "video" ]; # Enable ‘sudo’ for the user.
-     initialPassword = "password";
-     homeMode = "711";
-     packages = with pkgs; [
-       tree
-       kitty
-     ];
-   };
-
-  programs.zsh = {
-    enable = true;
-    enableCompletion = true;
-    
-    autosuggestions.enable = true;
-    syntaxHighlighting.enable = true;
-
-    ohMyZsh = {
-      enable = true;
-      plugins = [ "git" "sudo" "history" ];
-      theme = "robbyrussell";
-    };
-  };
-  programs.dconf.enable = true;
-  programs.firefox.enable = true;
-  programs.yazi.enable = true;
-
-  programs.dms-shell = {
-    enable = true;
-    package = inputs.dms.packages.${pkgs.stdenv.hostPlatform.system}.default;
-
-    systemd = {
-      enable = true;
-      restartIfChanged = true;
-    };
-
-    enableSystemMonitoring = true;     # System monitoring widgets (dgop)
-    enableVPN = true;                  # VPN management widget
-    enableDynamicTheming = true;       # Wallpaper-based theming (matugen)
-    enableAudioWavelength = true;      # Audio visualizer (cava)
-    enableCalendarEvents = true;       # Calendar integration (khal)
-    enableClipboardPaste = true;       # Pasting from the clipboard history (wtype) 
+  environment.variables = { 
+    EDITOR =  "vim"; 
+    GTK_THEME = "Adwaita:dark";
+    GTK_APPLICATION_PREFER_DARK_THEME = "1";
+    # QT_STYLE_OVERRIDE = "adwaita-dark"; 
+    QT_QPA_PLATFORM = "wayland";
   };
 
-  # List packages installed in system profile.
-  # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
     vim # Nano editor also installed by default
     wget
@@ -178,15 +140,52 @@
     udisks
     usbutils
   ];
-  
-  environment.shells = with pkgs; [ zsh ];
 
-  environment.variables = { 
-    EDITOR =  "vim"; 
-    GTK_THEME = "Adwaita:dark";
-    GTK_APPLICATION_PREFER_DARK_THEME = "1";
-    QT_STYLE_OVERRIDE = "adwaita-dark"; 
-    QT_QPA_PLATFORM = "wayland";
+  # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.users.ruben = {
+     isNormalUser = true;
+     shell = pkgs.zsh;
+     extraGroups = [ "networkmanager" "wheel" "video" ]; # Enable ‘sudo’ for the user.
+     initialPassword = "password";
+     homeMode = "711";
+     packages = with pkgs; [
+       tree
+       kitty
+     ];
+   };
+
+  programs.zsh = {
+    enable = true;
+    enableCompletion = true;
+    
+    autosuggestions.enable = true;
+    syntaxHighlighting.enable = true;
+
+    ohMyZsh = {
+      enable = true;
+      plugins = [ "git" "sudo" "history" ];
+      theme = "robbyrussell";
+    };
+  };
+  programs.dconf.enable = true;
+  programs.firefox.enable = true;
+  programs.yazi.enable = true;
+
+  programs.dms-shell = {
+    enable = true;
+    package = inputs.dms.packages.${pkgs.stdenv.hostPlatform.system}.default;
+
+    systemd = {
+      enable = true;
+      restartIfChanged = true;
+    };
+
+    enableSystemMonitoring = true;     # System monitoring widgets (dgop)
+    enableVPN = true;                  # VPN management widget
+    enableDynamicTheming = true;       # Wallpaper-based theming (matugen)
+    enableAudioWavelength = true;      # Audio visualizer (cava)
+    enableCalendarEvents = true;       # Calendar integration (khal)
+    enableClipboardPaste = true;       # Pasting from the clipboard history (wtype) 
   };
 
   nixpkgs.config.allowUnfree = true;
