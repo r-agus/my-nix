@@ -17,7 +17,7 @@ in
   home.packages = with pkgs; [
     vdirsyncer
     rclone
-    discord
+    vesktop 
   ];
 
   programs.zsh = {
