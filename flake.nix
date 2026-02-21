@@ -26,9 +26,14 @@
       url = "github:AvengeMedia/DankMaterialShell/stable";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    niri = {
+      url = "github:YaLTeR/niri/wip/branch";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, sops-nix, home-manager, ... }@inputs: {
+  outputs = { self, nixpkgs, sops-nix, home-manager, niri, ... }@inputs: {
     nixosConfigurations = {
       
       # PC sobremesa 

@@ -185,6 +185,7 @@
 
   # Niri
   programs.niri.enable = true;
+  programs.niri.package = inputs.niri.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
   xdg.portal = {
     enable = true;
