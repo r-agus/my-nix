@@ -104,7 +104,8 @@
     gnome-themes-extra
     gsettings-desktop-schemas
     pavucontrol
-    
+    cups-pk-helper
+ 
     # sddm-astronaut
     # swww
 
