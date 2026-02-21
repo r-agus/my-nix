@@ -380,7 +380,11 @@
   "displayNameMode": "system",
   "screenPreferences": {},
   "showOnLastDisplay": {},
-  "niriOutputSettings": {},
+  "niriOutputSettings": {
+    "eDP-1": {
+      "disabled": true
+    }
+  },
   "hyprlandOutputSettings": {},
   "displayProfiles": {},
   "activeDisplayProfile": {},

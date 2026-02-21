@@ -212,12 +212,8 @@ binds {
     Mod+Shift+Equal { set-window-height "+10%"; }
 
     // === Screenshots ===
-    XF86Launch1 { screenshot; }
-    Ctrl+XF86Launch1 { screenshot-screen; }
-    Alt+XF86Launch1 { screenshot-window; }
-    Print { screenshot; }
-    Ctrl+Print { screenshot-screen; }
-    Alt+Print { screenshot-window; }
+    Print { spawn "sh" "-c" "grim - | satty --filename -"; }
+    Shift+Print { spawn "obs"; }
     // === System Controls ===
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
     Mod+Shift+P { power-off-monitors; }

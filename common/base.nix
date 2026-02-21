@@ -189,8 +189,11 @@
 
   xdg.portal = {
     enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
-  # Uncomment if any window takes around 25 seconds to open!!
+    extraPortals = [
+      pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-gnome
+    ];
+    
   #  config = {
   #    niri = {
   #      default = [ "gtk" ];

@@ -60,6 +60,10 @@ in
     rclone
     vesktop
     telegram-desktop
+
+    grim
+    satty
+    obs-studio
   ];
 
   programs.zsh = {

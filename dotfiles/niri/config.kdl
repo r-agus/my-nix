@@ -257,6 +257,7 @@ window-rule {
     match app-id=r#"^blueman-manager$"#
     match app-id=r#"^org\.gnome\.Nautilus$"#
     match app-id=r#"^xdg-desktop-portal$"#
+    match app-id=r#"^com.gabm.satty$"# title="^satty$"
     open-floating true
 }
 window-rule {
@@ -273,7 +274,8 @@ window-rule {
     draw-border-with-background false
 }
 window-rule {
-    match app-id=r#"(firefox|zen-beta)$"# title="^Picture-in-Picture$"
+    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    match app-id=r#"zen-beta$"# title="^Picture-in-Picture$"
     match app-id="zoom"
     open-floating true
 }
