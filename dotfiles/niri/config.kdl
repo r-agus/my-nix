@@ -273,7 +273,7 @@ window-rule {
     draw-border-with-background false
 }
 window-rule {
-    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    match app-id=r#"(firefox|zen-beta)$"# title="^Picture-in-Picture$"
     match app-id="zoom"
     open-floating true
 }
