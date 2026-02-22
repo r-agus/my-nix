@@ -391,31 +391,10 @@
   },
   "hyprlandOutputSettings": {},
   "displayProfiles": {
-    "niri": {
-      "profile_1771737015187_phhb7u": {
-        "id": "profile_1771737015187_phhb7u",
-        "name": "torre",
-        "outputSet": [
-          "HDMI-A-1",
-          "eDP-1"
-        ],
-        "createdAt": 1771737015188,
-        "updatedAt": 1771737015188
-      },
-      "profile_1771737032485_yokes9": {
-        "id": "profile_1771737032485_yokes9",
-        "name": "portatil",
-        "outputSet": [
-          "HDMI-A-1",
-          "eDP-1"
-        ],
-        "createdAt": 1771737032485,
-        "updatedAt": 1771737032485
-      }
-    }
+    "niri": {}
   },
   "activeDisplayProfile": {
-    "niri": "profile_1771737032485_yokes9"
+    "niri": ""
   },
   "displayProfileAutoSelect": false,
   "displayShowDisconnected": false,
@@ -477,16 +456,16 @@
       "spacing": 4,
       "innerPadding": 4,
       "bottomGap": 0,
-      "transparency": 0.81,
+      "transparency": 0.85,
       "widgetTransparency": 0,
       "squareCorners": false,
       "noBackground": false,
       "gothCornersEnabled": false,
       "gothCornerRadiusOverride": false,
-      "gothCornerRadiusValue": 12,
-      "borderEnabled": false,
-      "borderColor": "surfaceText",
-      "borderOpacity": 1,
+      "gothCornerRadiusValue": 14,
+      "borderEnabled": true,
+      "borderColor": "primary",
+      "borderOpacity": 0.36,
       "borderThickness": 1,
       "widgetOutlineEnabled": false,
       "widgetOutlineColor": "primary",
@@ -505,9 +484,9 @@
       "scrollXBehavior": "column",
       "scrollYBehavior": "workspace",
       "shadowIntensity": 0,
-      "shadowOpacity": 60,
-      "shadowColorMode": "text",
-      "shadowCustomColor": "#000000",
+      "shadowOpacity": 96,
+      "shadowColorMode": "custom",
+      "shadowCustomColor": "#7ce018",
       "clickThrough": false
     }
   ],

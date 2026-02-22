@@ -113,6 +113,11 @@ in
     };
   };
 
+  services.kanshi = {
+    enable = true;
+    systemdTarget = "graphical-session.target";
+  };
+
   systemd.user.services.rclone-gdrive = {
     Unit = {
       Description = "mount Google Drive with rclone";

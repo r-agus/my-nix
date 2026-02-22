@@ -272,6 +272,9 @@ window-rule {
     match app-id="com.mitchellh.ghostty"
     match app-id="kitty"
     draw-border-with-background false
+    background-effect {
+	xray false
+    }
 }
 window-rule {
     match app-id=r#"firefox$"# title="^Picture-in-Picture$"
@@ -284,12 +287,18 @@ window-rule {
     opacity 0.75
     background-effect {
         blur true
+	xray false
     }
 }
 // Open dms windows as floating by default
 window-rule {
     match app-id=r#"org.quickshell$"#
     open-floating true
+    opacity 0.95
+    background-effect {
+        blur true
+	xray false
+    }
 }
 debug {
     honor-xdg-activation-with-invalid-serial
