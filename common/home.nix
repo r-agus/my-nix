@@ -53,6 +53,10 @@ in
   home.file = {
     ".face".source = ../dotfiles/avatar.png;
     ".face.icon".source = ../dotfiles/avatar.png;
+    ".local/share/typst/packages/local/uni/0.1.0" = {
+      source = ./typst-templates/uni; 
+      recursive = true; 
+    };
   };
 
   home.packages = with pkgs; [
@@ -60,6 +64,7 @@ in
     rclone
     vesktop
     telegram-desktop
+    typst
 
     grim
     satty
