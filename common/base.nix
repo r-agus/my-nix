@@ -90,7 +90,6 @@
     EDITOR =  "vim"; 
     GTK_THEME = "Adwaita:dark";
     GTK_APPLICATION_PREFER_DARK_THEME = "1";
-    # QT_STYLE_OVERRIDE = "adwaita-dark"; 
     QT_QPA_PLATFORM = "wayland";
   };
 
@@ -106,9 +105,6 @@
     pavucontrol
     cups-pk-helper
  
-    # sddm-astronaut
-    # swww
-
     p7zip
     unrar
     unzip
@@ -193,16 +189,6 @@
       pkgs.xdg-desktop-portal-gtk
       pkgs.xdg-desktop-portal-gnome
     ];
-    
-  #  config = {
-  #    niri = {
-  #      default = [ "gtk" ];
-  #    };
-  #    # Fallback
-  #    common = {
-  #      default = [ "gtk" ];
-  #    };
-  #  };
   }; 
 
   xdg.mime.defaultApplications = {
@@ -244,24 +230,13 @@
     openDefaultPorts = true;
   };
 
-  # services.displayManager.sddm = {
-    # enable = true;
-    # wayland.enable = true;
-    # enableHidpi = true;
-    # theme = "sddm-astronaut-theme";
-    # extraPackages = with pkgs; [
-      # kdePackages.qtmultimedia
-      # kdePackages.qtsvg 
-      # kdePackages.qtvirtualkeyboard 
-    # ];
-  # };
-
   services.displayManager.dms-greeter = {
     enable = true;
     compositor.name = "niri";
   };
 
   security.polkit.enable = true;
+  security.rtkit.enable = true;
 
   systemd.user.services.polkit-kde-authentication-agent-1 = {
     description = "polkit-kde-authentication-agent-1";

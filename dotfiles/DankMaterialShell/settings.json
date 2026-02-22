@@ -196,7 +196,7 @@
   "dankLauncherV2UnloadOnClose": false,
   "useAutoLocation": false,
   "weatherEnabled": true,
-  "networkPreference": "auto",
+  "networkPreference": "wifi",
   "iconTheme": "System Default",
   "cursorSettings": {
     "theme": "Adwaita",
@@ -255,7 +255,11 @@
   "fadeToDpmsGracePeriod": 5,
   "launchPrefix": "",
   "brightnessDevicePins": {},
-  "wifiNetworkPins": {},
+  "wifiNetworkPins": {
+    "preferredWifi": [
+      "MOVISTAR-WIFI6-0818"
+    ]
+  },
   "bluetoothDevicePins": {},
   "audioInputDevicePins": {},
   "audioOutputDevicePins": {},
@@ -382,12 +386,37 @@
   "showOnLastDisplay": {},
   "niriOutputSettings": {
     "eDP-1": {
-      "disabled": true
+      "disabled": false
     }
   },
   "hyprlandOutputSettings": {},
-  "displayProfiles": {},
-  "activeDisplayProfile": {},
+  "displayProfiles": {
+    "niri": {
+      "profile_1771737015187_phhb7u": {
+        "id": "profile_1771737015187_phhb7u",
+        "name": "torre",
+        "outputSet": [
+          "HDMI-A-1",
+          "eDP-1"
+        ],
+        "createdAt": 1771737015188,
+        "updatedAt": 1771737015188
+      },
+      "profile_1771737032485_yokes9": {
+        "id": "profile_1771737032485_yokes9",
+        "name": "portatil",
+        "outputSet": [
+          "HDMI-A-1",
+          "eDP-1"
+        ],
+        "createdAt": 1771737032485,
+        "updatedAt": 1771737032485
+      }
+    }
+  },
+  "activeDisplayProfile": {
+    "niri": "profile_1771737032485_yokes9"
+  },
   "displayProfileAutoSelect": false,
   "displayShowDisconnected": false,
   "displaySnapToEdge": true,
