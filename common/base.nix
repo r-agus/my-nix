@@ -178,6 +178,7 @@
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   hardware.graphics.enable = true;
+  hardware.brillo.enable = true;
 
   # Niri
   programs.niri.enable = true;
