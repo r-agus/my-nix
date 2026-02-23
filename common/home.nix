@@ -71,16 +71,27 @@ in
     obs-studio
   ];
 
+  programs.starship = {
+     enable = true;
+     enableZshIntegration = true;
+  };
+
   programs.zsh = {
     enable = true;
     enableCompletion = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
-    
-    oh-my-zsh = {
-      enable = true;
-      plugins = [ "git" "sudo" "history" ];
-      theme = "robbyrussell";
+
+#    oh-my-zsh = {
+#      enable = true;
+#      plugins = [ "git" "sudo" "history" ];
+#      theme = "robbyrussell";
+#    };
+
+    shellAliases = {
+      batcare = "echo 80 | sudo tee /sys/devices/platform/lg-laptop/battery_care_limit > /dev/null";
+      batlong = "echo 100 | sudo tee /sys/devices/platform/lg-laptop/battery_care_limit > /dev/null";
+      batwatch = "cat /sys/devices/platform/lg-laptop/battery_care_limit";
     };
 
     defaultKeymap = "emacs";
