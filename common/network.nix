@@ -1,7 +1,6 @@
 { config, lib, ... }:
 
 {
-  # Declaramos una variable para que cada host defina su IP
   options.my.vpn.ipv4 = lib.mkOption {
     type = lib.types.str;
     description = "Dirección IPv4 local para la VPN WireGuard";

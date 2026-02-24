@@ -257,6 +257,8 @@
   "brightnessDevicePins": {},
   "wifiNetworkPins": {
     "preferredWifi": [
+      "eduroam",
+      "Ruben",
       "MOVISTAR-WIFI6-0818"
     ]
   },
