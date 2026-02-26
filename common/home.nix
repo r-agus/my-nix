@@ -65,11 +65,20 @@ in
     vesktop
     telegram-desktop
     typst
+    neovim
+    neovide
+    jetbrains.idea
 
     grim
     satty
     obs-studio
   ];
+
+  programs.direnv = {
+    enable = true;
+    enableZshIntegration = true;
+    nix-direnv.enable = true;
+  };
 
   programs.starship = {
      enable = true;
