@@ -9,6 +9,8 @@
   sops.defaultSopsFile = ./secrets.yaml;
 
   services.upower.enable = true;
+  services.hardware.bolt.enable = true;
+  services.xserver.videoDrivers = [ "displaylink" "modesetting" ];
 
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
@@ -85,11 +87,19 @@
         profile.outputs = [ { criteria = "eDP-1"; status = "enable"; } ];
       }
       {
-        profile.name = "casa";
+        profile.name = "casa-hdmi";
         profile.outputs = [
           { criteria = "eDP-1"; status = "disable"; }
           { criteria = "HDMI-A-1"; status = "enable"; }
         ];
+      }
+      {
+        profile.name = "casa-dock";
+        profile.outputs = [
+          { criteria = "eDP-1"; status = "disable"; }
+          { criteria = "Samsung Electric Company S34CG50 HNBWB03239"; status = "enable"; }
+        ];
+
       }
     ];
 
@@ -99,11 +109,11 @@
         before-sleep = "${pkgs.niri}/bin/niri msg action spawn -- /run/current-system/sw/bin/dms ipc call lock lock";
       };
       timeouts = [
-        { timeout = 60;  command = "${idleHandler}/bin/idle-handler 60";  resumeCommand = "${idleResume}/bin/idle-resume"; }
-        { timeout = 70;  command = "${idleHandler}/bin/idle-handler 70";  resumeCommand = "${idleResume}/bin/idle-resume"; }
-        { timeout = 120; command = "${idleHandler}/bin/idle-handler 120"; resumeCommand = "${idleResume}/bin/idle-resume"; }
-        { timeout = 180; command = "${idleHandler}/bin/idle-handler 180"; resumeCommand = "${idleResume}/bin/idle-resume"; }
-        { timeout = 300; command = "${pkgs.systemd}/bin/systemctl suspend"; }
+        { timeout = 1600;  command = "${idleHandler}/bin/idle-handler 60";  resumeCommand = "${idleResume}/bin/idle-resume"; }
+        { timeout = 1700;  command = "${idleHandler}/bin/idle-handler 70";  resumeCommand = "${idleResume}/bin/idle-resume"; }
+        { timeout = 11200; command = "${idleHandler}/bin/idle-handler 120"; resumeCommand = "${idleResume}/bin/idle-resume"; }
+        { timeout = 11800; command = "${idleHandler}/bin/idle-handler 180"; resumeCommand = "${idleResume}/bin/idle-resume"; }
+        { timeout = 13000; command = "${pkgs.systemd}/bin/systemctl suspend"; }
       ];
     };
   };
