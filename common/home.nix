@@ -68,6 +68,7 @@ in
     neovim
     neovide
     jetbrains.idea
+    ventoy
 
     grim
     satty

@@ -175,7 +175,12 @@
     enableClipboardPaste = true;       # Pasting from the clipboard history (wtype) 
   };
 
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = {
+    allowUnfree = true;
+    permittedInsecurePackages = [
+      "ventoy-1.1.10"
+    ];
+  };
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.gc = {
     automatic = true;
