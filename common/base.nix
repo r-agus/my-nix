@@ -104,6 +104,7 @@
     gsettings-desktop-schemas
     pavucontrol
     cups-pk-helper
+    xwayland-satellite
  
     p7zip
     unrar
@@ -127,6 +128,7 @@
     kdePackages.gwenview
     kdePackages.ark
     kdePackages.qt6ct
+    libsForQt5.qt5ct
     libsForQt5.qt5ct
     kdePackages.kservice
     kdePackages.kio-extras
@@ -218,6 +220,13 @@
   # };
 
   # List services that you want to enable:
+  services.earlyoom = {
+    enable = true;
+    # kill if less than 5% RAM and 5% of Swap free.
+    freeMemThreshold = 5; 
+    enableNotifications = true;
+  };
+  zramSwap.enable = true;
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
@@ -256,7 +265,6 @@
     wants = [ "graphical-session.target" ];
     after = [ "graphical-session.target" ];
     serviceConfig = {
-      Type = "simple";
       ExecStart = "${pkgs.kdePackages.polkit-kde-agent-1}/libexec/polkit-kde-authentication-agent-1";
       Restart = "on-failure";
       RestartSec = 1;
