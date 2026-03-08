@@ -73,6 +73,8 @@ in
     grim
     satty
     obs-studio
+
+    kdePackages.okular
   ];
 
   programs.direnv = {
@@ -132,6 +134,15 @@ in
       ''; 
     };
   };
+
+  programs.zathura = {
+  enable = true;
+  options = {
+    recolor = "true";
+    recolor-keep-true-color = "true";
+    selection-clipboard = "clipboard";
+  };
+};
 
   services.kanshi = {
     enable = true;
