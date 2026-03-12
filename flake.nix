@@ -20,6 +20,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    autofirma-nix.url = "github:nix-community/autofirma-nix";
+
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
 
     dms = {
@@ -31,9 +33,14 @@
       url = "github:YaLTeR/niri/wip/branch";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    spicetify-nix = {
+      url = "github:Gerg-L/spicetify-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, sops-nix, home-manager, niri, ... }@inputs: {
+  outputs = { self, nixpkgs, sops-nix, home-manager, niri, spicetify-nix, ... }@inputs: {
     nixosConfigurations = {
       
       # PC sobremesa 

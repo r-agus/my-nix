@@ -423,7 +423,7 @@
         {
           "id": "music",
           "enabled": true,
-          "mediaSize": 2
+          "mediaSize": 0
         },
         {
           "id": "clock",
