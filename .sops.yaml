@@ -4,7 +4,7 @@ keys:
   - &portatil age15nrak552r79q389ghmwt6sewjetvdmrhajzyhnn6ge96jcgdufds4s4zvr
 
 creation_rules:
-  - path_regex: common/secrets\.yaml$
+  - path_regex: common/(secrets\.yaml|.*\.p12)$
     key_groups:
       - age:
         - *admin

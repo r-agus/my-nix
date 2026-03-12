@@ -308,6 +308,12 @@
     group = config.users.users.ruben.group;
     path = "/home/ruben/.config/rclone/rclone.conf";
   };
+
+  sops.secrets."certificado_digital" = {
+    sopsFile = ../common/cert.enc.p12; 
+    format = "binary";
+    owner = "ruben";
+  };
   
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
