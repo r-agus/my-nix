@@ -1,11 +1,16 @@
 # common/home.nix
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
 let
   dotfilesDir = ../dotfiles;
   managedFiles = builtins.attrNames (builtins.readDir dotfilesDir);
+  spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.system};
 in
 {
+  imports = [
+    inputs.spicetify-nix.homeManagerModules.default
+  ];
+
   accounts.email.accounts = {
     "personal" = {
       primary = true;
@@ -53,10 +58,12 @@ in
   home.file = {
     ".face".source = ../dotfiles/avatar.png;
     ".face.icon".source = ../dotfiles/avatar.png;
+    # Ajustes para que se vea bien en modo oscuro/claro según prefieras
     ".local/share/typst/packages/local/uni/0.1.0" = {
       source = ./typst-templates/uni; 
       recursive = true; 
     };
+    ".certificates/ruben.p12".source = config.lib.file.mkOutOfStoreSymlink "/run/secrets/certificado_digital";
   };
 
   home.packages = with pkgs; [
@@ -75,6 +82,9 @@ in
     obs-studio
 
     kdePackages.okular
+    inputs.autofirma-nix.packages.${pkgs.system}.autofirma
+
+    spotube
   ];
 
   programs.direnv = {
@@ -136,13 +146,26 @@ in
   };
 
   programs.zathura = {
-  enable = true;
-  options = {
-    recolor = "true";
-    recolor-keep-true-color = "true";
-    selection-clipboard = "clipboard";
+    enable = true;
+    options = {
+      recolor = "true";
+      recolor-keep-true-color = "true";
+      selection-clipboard = "clipboard";
+    };
   };
-};
+
+  programs.spicetify = {
+    enable = true;
+    
+    theme = spicePkgs.themes.catppuccin;
+    colorScheme = "mocha"; 
+    enabledExtensions = with spicePkgs.extensions; [
+      adblock
+      hidePodcasts
+      shuffle
+      fullAppDisplay
+    ];
+  };
 
   services.kanshi = {
     enable = true;
