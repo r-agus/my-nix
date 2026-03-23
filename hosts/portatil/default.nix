@@ -15,7 +15,7 @@
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
 
-  my.vpn.ipv4 = "10.10.20.2/24";
+  my.vpn.ipv4 = "10.10.20.5/24";
   networking.hostName = "Portatil-nixos";
 
   home-manager.users.ruben = { pkgs, ... }: 

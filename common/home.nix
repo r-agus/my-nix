@@ -85,6 +85,7 @@ in
     inputs.autofirma-nix.packages.${pkgs.system}.autofirma
 
     spotube
+    freetube
   ];
 
   programs.direnv = {
@@ -170,6 +171,12 @@ in
   services.kanshi = {
     enable = true;
     systemdTarget = "graphical-session.target";
+  };
+
+  # services.openvpn
+
+  services.ollama = {
+    enable = true;
   };
 
   systemd.user.services.rclone-gdrive = {

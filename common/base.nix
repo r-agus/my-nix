@@ -238,6 +238,15 @@
       layout = "us";
       variant = "altgr-intl";
   };
+
+  services.n8n = {
+    enable = true;
+    environment = {
+      N8N_COMMAND_ENABLE = "true"; 
+      NODE_FUNCTION_ALLOW_EXTERNAL = "fs,path";
+    };
+  };
+
   services.gvfs.enable = true;
   services.udisks2.enable = true;
   services.flatpak.enable = true;
