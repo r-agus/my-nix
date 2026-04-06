@@ -242,8 +242,8 @@
   services.n8n = {
     enable = true;
     environment = {
-      N8N_COMMAND_ENABLE = "true"; 
-      NODE_FUNCTION_ALLOW_EXTERNAL = "fs,path";
+      NODE_FUNCTION_ALLOW_BUILTIN = "*";
+      NODE_FUNCTION_ALLOW_EXTERNAL = "*";
     };
   };
 
@@ -281,6 +281,9 @@
     };
   };
 
+#  systemd.services.n8n.serviceConfig.ReadWritePaths = [ "/var/lib/n8n" ];
+  systemd.services.n8n.path = [ pkgs.nodejs pkgs.typst ];
+
   # Rebuild sycoca db 
   system.userActivationScripts.kbuildsycoca = {
     text = ''
@@ -291,6 +294,27 @@
 
       if [ -x "${pkgs.kdePackages.kservice}/bin/kbuildsycoca6" ]; then
          ${pkgs.kdePackages.kservice}/bin/kbuildsycoca6 --noincremental --global 2>/dev/null || true
+      fi
+    '';
+  };
+
+  systemd.user.services.rclone-config-init = {
+    description = "Generate writable rclone config";
+    wantedBy = [ "default.target" ];
+    serviceConfig.Type = "oneshot";
+    script = ''
+      CONFIG="$HOME/.config/rclone/rclone.conf"
+      # crea el config si no existe
+      if [ ! -f "$CONFIG" ]; then
+        mkdir -p "$(dirname $CONFIG)"
+        cat > "$CONFIG" <<EOF
+[gdrive]
+type = drive
+client_id = $(cat ${config.sops.secrets.google_client_id.path})
+client_secret = $(cat ${config.sops.secrets.google_client_secret.path})
+scope = drive
+EOF
+        chmod 600 "$CONFIG"
       fi
     '';
   };
@@ -309,13 +333,6 @@
   sops.secrets.google_client_secret = {
     sopsFile = ./secrets.yaml;
     owner = config.users.users.ruben.name;
-  };
-
-  sops.secrets."rclone_conf" = {
-    sopsFile = ./secrets.yaml;
-    owner = config.users.users.ruben.name;
-    group = config.users.users.ruben.group;
-    path = "/home/ruben/.config/rclone/rclone.conf";
   };
 
   sops.secrets."certificado_digital" = {
