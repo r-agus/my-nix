@@ -1,4 +1,4 @@
-#let portrait(title: "", course: "", authors: "", date: "", img_path: "") = [
+#let cover(title: "", course: "", authors: "", date: "", img_path: "") = [
   #set page(
     paper: "a4",
     margin: (top: 18mm, bottom: 18mm, left: 20mm, right: 20mm),

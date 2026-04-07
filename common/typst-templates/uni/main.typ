@@ -1,5 +1,5 @@
 #import "lib/style.typ": setup
-#import "portrait.typ": portrait
+#import "cover.typ": cover
 
 #let doc_title = "<Title>"
 #let authors_portrait = ("Rubén Agustín",)
@@ -14,7 +14,7 @@
 
 #set figure(supplement: [Figura])
 
-#portrait(title: doc_title, course: course, authors: authors_portrait, date: date, img_path: "img/portait.png")
+#cover(title: doc_title, course: course, authors: authors_portrait, date: date, img_path: "img/cover.png")
 #pagebreak()
 
 #show: doc => setup(
