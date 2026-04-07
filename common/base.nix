@@ -23,6 +23,7 @@
 
   # Configure network connections interactively with nmcli or nmtui.
   networking.networkmanager.enable = true;
+  networking.networkmanager.plugins = [ pkgs.networkmanager-openvpn ];
 
   # Set your time zone.
   time.timeZone = "Europe/Madrid";
@@ -141,6 +142,35 @@
     udisks
     usbutils
   ];
+
+  environment.etc."openvpn/ca.crt" = {
+    text = ''
+    -----BEGIN CERTIFICATE-----
+    MIID2zCCA0SgAwIBAgIUcgauUqj7P3Ll7Pa8x/+c1Y9spcMwDQYJKoZIhvcNAQEL
+    BQAwgZ4xCzAJBgNVBAYTAlRXMQ8wDQYDVQQIEwZUYWl3YW4xDzANBgNVBAcTBlRh
+    aXBlaTEaMBgGA1UEChMRUU5BUCBTeXN0ZW1zIEluYy4xDDAKBgNVBAsTA05BUzEW
+    MBQGA1UEAxMNVFMgU2VyaWVzIE5BUzEMMAoGA1UEKRMDTkFTMR0wGwYJKoZIhvcN
+    AQkBFg5hZG1pbkBxbmFwLmNvbTAeFw0yNDA5MDIxMDE4NTdaFw0zNDA4MzExMDE4
+    NTdaMIGeMQswCQYDVQQGEwJUVzEPMA0GA1UECBMGVGFpd2FuMQ8wDQYDVQQHEwZU
+    YWlwZWkxGjAYBgNVBAoTEVFOQVAgU3lzdGVtcyBJbmMuMQwwCgYDVQQLEwNOQVMx
+    FjAUBgNVBAMTDVRTIFNlcmllcyBOQVMxDDAKBgNVBCkTA05BUzEdMBsGCSqGSIb3
+    DQEJARYOYWRtaW5AcW5hcC5jb20wgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGB
+    AKGcQC7Cu72xQozgvLBB+xkumCmWuE4pdsfUeUw9NjcAW7vSjY3XE6osV0QQVFZb
+    sqw6Mvzp/mtXGm1tSZZ1N3mdrN9hcIA5pfVBwDZv5a9cioxqx6YoLdDXTJWigsSS
+    tAmUWj/5zfiEJ6A53UTfP05xaZPCnZdORojnGykCyFhRAgMBAAGjggESMIIBDjAd
+    BgNVHQ4EFgQUSv4lcoUZuH+GePopajApz+Kem1kwgd4GA1UdIwSB1jCB04AUSv4l
+    coUZuH+GePopajApz+Kem1mhgaSkgaEwgZ4xCzAJBgNVBAYTAlRXMQ8wDQYDVQQI
+    EwZUYWl3YW4xDzANBgNVBAcTBlRhaXBlaTEaMBgGA1UEChMRUU5BUCBTeXN0ZW1z
+    IEluYy4xDDAKBgNVBAsTA05BUzEWMBQGA1UEAxMNVFMgU2VyaWVzIE5BUzEMMAoG
+    A1UEKRMDTkFTMR0wGwYJKoZIhvcNAQkBFg5hZG1pbkBxbmFwLmNvbYIUcgauUqj7
+    P3Ll7Pa8x/+c1Y9spcMwDAYDVR0TBAUwAwEB/zANBgkqhkiG9w0BAQsFAAOBgQCB
+    1UoGh6oU05UdtaIqJTeguARKBtLZpeg/3M99acVGqPNZzYCLpemY0v6Zm+VQheIm
+    FpNHhOZH46Pepy/md2R6sapAE2N6s0MfRaNjGtIRxgTgFO6AG55gaoEmr6w8Gc6v
+    8OJkMBavfvS6nTuiPfdT42+9HBLIgjq0OzvLvS7N7w==
+    -----END CERTIFICATE-----
+    '';
+    mode = "0444";
+  };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.ruben = {
