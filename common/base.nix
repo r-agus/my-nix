@@ -189,6 +189,7 @@
   programs.dconf.enable = true;
   programs.firefox.enable = true;
   programs.yazi.enable = true;
+  programs.nix-ld.enable = true;
 
   programs.dms-shell = {
     enable = true;
