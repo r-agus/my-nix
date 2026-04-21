@@ -168,6 +168,22 @@ in
     ];
   };
 
+  programs.mpv = {
+    enable = true;
+    
+    config = {
+      profile = "gpu-hq";
+      vo = "gpu-next";
+      hwdec = "auto-safe";
+      ytdl-format = "bestvideo+bestaudio";
+    };
+
+    scripts = with pkgs.mpvScripts; [
+      mpris
+      # thumbfast
+    ];
+  };
+
   services.kanshi = {
     enable = true;
     systemdTarget = "graphical-session.target";
