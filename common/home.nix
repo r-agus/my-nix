@@ -75,6 +75,7 @@ in
     neovim
     neovide
     jetbrains.idea
+    pkgs.zed-editor
     ventoy
 
     grim
@@ -87,6 +88,8 @@ in
     spotube
     freetube
   ];
+
+  nixGL.vulkan.enable = true;
 
   programs.direnv = {
     enable = true;
