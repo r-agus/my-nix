@@ -77,7 +77,7 @@
 
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";
-    XDG_CURRENT_DESKTOP = "niri"; 
+    XDG_CURRENT_DESKTOP = "niri";
     XDG_MENU_PREFIX = "gnome-";
     XDG_SESSION_TYPE = "wayland";
     XDG_SESSION_DESKTOP = "niri";
@@ -87,8 +87,8 @@
     QT_QPA_PLATFORMTHEME = "gtk3";
   };
 
-  environment.variables = { 
-    EDITOR =  "vim"; 
+  environment.variables = {
+    EDITOR =  "vim";
     GTK_THEME = "Adwaita:dark";
     GTK_APPLICATION_PREFER_DARK_THEME = "1";
     QT_QPA_PLATFORM = "wayland";
@@ -106,10 +106,12 @@
     pavucontrol
     cups-pk-helper
     xwayland-satellite
- 
+
     p7zip
     unrar
     unzip
+
+    gemini-cli-bin
 
     localsend
 
@@ -205,15 +207,15 @@
     enableDynamicTheming = true;       # Wallpaper-based theming (matugen)
     enableAudioWavelength = true;      # Audio visualizer (cava)
     enableCalendarEvents = true;       # Calendar integration (khal)
-    enableClipboardPaste = true;       # Pasting from the clipboard history (wtype) 
+    enableClipboardPaste = true;       # Pasting from the clipboard history (wtype)
   };
 
-  nixpkgs.config = {
-    allowUnfree = true;
-    permittedInsecurePackages = [
-      "ventoy-1.1.10"
-    ];
-  };
+  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.permittedInsecurePackages = [
+    "ventoy-1.1.10"
+    "openclaw-2026.4.2"
+    "openclaw-gateway-2026.4.23"
+  ];
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nix.gc = {
     automatic = true;
@@ -234,14 +236,14 @@
       pkgs.xdg-desktop-portal-gtk
       pkgs.xdg-desktop-portal-gnome
     ];
-  }; 
+  };
 
   xdg.mime.defaultApplications = {
     "inode/directory" = "org.kde.dolphin.desktop";
     "application/x-directory" = "org.kde.dolphin.desktop";
     "x-scheme-handler/file" = "org.kde.dolphin.desktop";
   };
-  
+
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -254,7 +256,7 @@
   services.earlyoom = {
     enable = true;
     # kill if less than 5% RAM and 5% of Swap free.
-    freeMemThreshold = 5; 
+    freeMemThreshold = 5;
     enableNotifications = true;
   };
   zramSwap.enable = true;
@@ -315,7 +317,7 @@
 #  systemd.services.n8n.serviceConfig.ReadWritePaths = [ "/var/lib/n8n" ];
   systemd.services.n8n.path = [ pkgs.nodejs pkgs.typst ];
 
-  # Rebuild sycoca db 
+  # Rebuild sycoca db
   system.userActivationScripts.kbuildsycoca = {
     text = ''
       mkdir -p $HOME/.local/share/applications
@@ -360,18 +362,18 @@ EOF
     sopsFile = ./secrets.yaml;
     owner = config.users.users.ruben.name;
   };
-  
+
   sops.secrets.google_client_secret = {
     sopsFile = ./secrets.yaml;
     owner = config.users.users.ruben.name;
   };
 
   sops.secrets."certificado_digital" = {
-    sopsFile = ../common/cert.enc.p12; 
+    sopsFile = ../common/cert.enc.p12;
     format = "binary";
     owner = "ruben";
   };
-  
+
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
   # accidentally delete configuration.nix.
@@ -394,4 +396,3 @@ EOF
   # and migrated your data accordingly.
   system.stateVersion = "25.11"; # Did you read the comment?
 }
-

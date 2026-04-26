@@ -60,8 +60,8 @@ in
     ".face.icon".source = ../dotfiles/avatar.png;
     # Ajustes para que se vea bien en modo oscuro/claro según prefieras
     ".local/share/typst/packages/local/uni/0.1.0" = {
-      source = ./typst-templates/uni; 
-      recursive = true; 
+      source = ./typst-templates/uni;
+      recursive = true;
     };
     ".certificates/ruben.p12".source = config.lib.file.mkOutOfStoreSymlink "/run/secrets/certificado_digital";
   };
@@ -145,7 +145,7 @@ in
       extraConfig = ''
         user_pref("mail.smtpserver.smtp_4986247086fa3cd1ffd75cba8eb115e207df8855f768a70ff7e8944c665da376.username", "r.agustin@alumnos.upm.es");
         user_pref("mail.smtpserver.smtp_4986247086fa3cd1ffd75cba8eb115e207df8855f768a70ff7e8944c665da376.authMethod", 3);
-      ''; 
+      '';
     };
   };
 
@@ -160,9 +160,9 @@ in
 
   programs.spicetify = {
     enable = true;
-    
+
     theme = spicePkgs.themes.catppuccin;
-    colorScheme = "mocha"; 
+    colorScheme = "mocha";
     enabledExtensions = with spicePkgs.extensions; [
       adblock
       hidePodcasts
@@ -173,7 +173,7 @@ in
 
   programs.mpv = {
     enable = true;
-    
+
     config = {
       profile = "gpu-hq";
       vo = "gpu-next";
@@ -201,9 +201,9 @@ in
   systemd.user.services.rclone-gdrive = {
     Unit = {
       Description = "mount Google Drive with rclone";
-      After = [ "network-online.target" ]; 
+      After = [ "network-online.target" ];
     };
-    
+
     Install = {
       WantedBy = [ "default.target" ];
     };
@@ -218,10 +218,10 @@ in
           --dir-cache-time=1h \
           --log-level=INFO
       '';
-      
-      # shutdown 
+
+      # shutdown
       ExecStop = "/run/wrappers/bin/fusermount -u %h/Drive";
-      
+
       Restart = "on-failure";
       RestartSec = "10s";
     };
@@ -264,8 +264,8 @@ in
       datetimeformat = %d/%m/%Y %H:%M
       longdatetimeformat = %d/%m/%Y %H:%M
     '';
-  }; 
+  };
 
   # Misma versión que en system.stateVersion
-  home.stateVersion = "25.11"; 
+  home.stateVersion = "25.11";
 }

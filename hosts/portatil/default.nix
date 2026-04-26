@@ -4,6 +4,7 @@
     ./hardware.nix
     ../../common/base.nix
     ../../common/network.nix
+    ../../common/ai.nix
   ];
 
   sops.defaultSopsFile = ./secrets.yaml;
@@ -18,17 +19,17 @@
   my.vpn.ipv4 = "10.10.20.5/24";
   networking.hostName = "Portatil-nixos";
 
-  home-manager.users.ruben = { pkgs, ... }: 
+  home-manager.users.ruben = { pkgs, ... }:
   let
     idleHandler = pkgs.writeShellScriptBin "idle-handler" ''
       AC_ONLINE=0
       BAT_CAP=""
-      
+
       for supply in /sys/class/power_supply/*; do
         [ -f "$supply/type" ] || continue
         # Sanitizar saltos de línea
         type=$(cat "$supply/type" 2>/dev/null | tr -d '\n\r')
-        
+
         if [ "$type" = "Mains" ]; then
           online=$(cat "$supply/online" 2>/dev/null | tr -d '\n\r')
           [ "$online" = "1" ] && AC_ONLINE=1

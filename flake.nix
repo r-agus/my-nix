@@ -38,12 +38,17 @@
       url = "github:Gerg-L/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    openclaw = {
+      url = "github:openclaw/nix-openclaw";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, sops-nix, home-manager, niri, spicetify-nix, ... }@inputs: {
     nixosConfigurations = {
-      
-      # PC sobremesa 
+
+      # PC sobremesa
       sobremesa = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         specialArgs = { inherit inputs; };
@@ -51,7 +56,7 @@
           sops-nix.nixosModules.sops
           ./hosts/sobremesa/default.nix
 
-          home-manager.nixosModules.home-manager 
+          home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
@@ -70,7 +75,7 @@
           sops-nix.nixosModules.sops
           ./hosts/portatil/default.nix
 
-          home-manager.nixosModules.home-manager 
+          home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
