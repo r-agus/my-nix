@@ -112,6 +112,7 @@
     unzip
 
     gemini-cli-bin
+    codex
 
     localsend
 
