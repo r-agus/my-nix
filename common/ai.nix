@@ -5,20 +5,41 @@ let
     [gateway]
     bind_address = "0.0.0.0:3000"
 
-    # Keep the main fast path tool-capable. Gemma stays as a last-resort
-    # fallback behind a separate TensorZero function with tool use disabled.
     [models.agent-fast]
-    routing = ["gemini-3-flash-preview", "qwen-3-235b-a22b-instruct-2507"]
+    routing = ["gemini-google", "qwen-3-235b-a22b-instruct-2507", "gemma-google", "gpt-oss-groq", "nemotron-free"]
 
-    [models.agent-fast.providers.gemini-3-flash-preview]
+    [models.agent-fast.providers.gemini-google]
     type = "google_ai_studio_gemini"
-    model_name = "gemini-3-flash-preview"
+    model_name = "gemini-3.1-flash-lite-preview"
+    extra_body = [
+      { pointer = "/tools/0/functionDeclarations/3/parameters", value = { type = "object", properties = { command = { type = "string", description = "Shell command to execute." }, cwd = { type = "string", description = "Working directory. Optional." } }, required = ["command"] } },
+      { pointer = "/tools/0/functionDeclarations/7/parameters", value = { type = "object", properties = { name = { type = "string", description = "Name of the scheduled task." }, schedule = { type = "string", description = "Cron expression or natural-language schedule." }, command = { type = "string", description = "Command or instruction to run." } }, required = ["name", "schedule", "command"] } }
+    ]
 
     [models.agent-fast.providers.qwen-3-235b-a22b-instruct-2507]
     type = "openai"
     api_base = "https://api.cerebras.ai/v1"
     model_name = "qwen-3-235b-a22b-instruct-2507"
     api_key_location = "env::CEREBRAS_API_KEY"
+
+    [models.agent-fast.providers.gemma-google]
+    type = "google_ai_studio_gemini"
+    model_name = "gemma-4-31b-it"
+    extra_body = [
+      { pointer = "/tools/0/functionDeclarations/3/parameters", value = { type = "object", properties = { command = { type = "string", description = "Shell command to execute." }, cwd = { type = "string", description = "Working directory. Optional." } }, required = ["command"] } },
+      { pointer = "/tools/0/functionDeclarations/7/parameters", value = { type = "object", properties = { name = { type = "string", description = "Name of the scheduled task." }, schedule = { type = "string", description = "Cron expression or natural-language schedule." }, command = { type = "string", description = "Command or instruction to run." } }, required = ["name", "schedule", "command"] } }
+    ]
+
+    [models.agent-fast.providers.gpt-oss-groq]
+    type = "groq"
+    model_name = "openai/gpt-oss-120b"
+    extra_body = [
+        { pointer = "/max_tokens", value = 2048 }
+    ]
+
+    [models.agent-fast.providers.nemotron-free]
+    type = "openrouter"
+    model_name = "nvidia/nemotron-3-super-120b-a12b:free"
 
     [functions.agent-fast]
     type = "chat"
@@ -27,62 +48,44 @@ let
     type = "chat_completion"
     model = "agent-fast"
 
-    [models.agent-fast-gemma]
-    routing = ["gemma-google"]
+    [models.agent-smart]
+    routing = ["qwen-3-235b-a22b-instruct-2507", "gemini-google", "minimax-free", "nemotron-free", "gemma-google", "gpt-oss-groq"]
 
-    [models.agent-fast-gemma.providers.gemma-google]
+    [models.agent-smart.providers.qwen-3-235b-a22b-instruct-2507]
+    type = "openai"
+    api_base = "https://api.cerebras.ai/v1"
+    model_name = "qwen-3-235b-a22b-instruct-2507"
+    api_key_location = "env::CEREBRAS_API_KEY"
+
+    [models.agent-smart.providers.gemini-google]
     type = "google_ai_studio_gemini"
-    model_name = "gemma-4-31b-it"
+    model_name = "gemini-3.0-flash"
+    extra_body = [
+      { pointer = "/tools/0/functionDeclarations/3/parameters", value = { type = "object", properties = { command = { type = "string", description = "Shell command to execute." }, cwd = { type = "string", description = "Working directory. Optional." } }, required = ["command"] } },
+      { pointer = "/tools/0/functionDeclarations/7/parameters", value = { type = "object", properties = { name = { type = "string", description = "Name of the scheduled task." }, schedule = { type = "string", description = "Cron expression or natural-language schedule." }, command = { type = "string", description = "Command or instruction to run." } }, required = ["name", "schedule", "command"] } }
+    ]
 
-    [functions.agent-fast-gemma]
-    type = "chat"
-    tool_choice = "none"
-
-    [functions.agent-fast-gemma.variants.gemma-last-resort]
-    type = "chat_completion"
-    model = "agent-fast-gemma"
-
-    [models.agent-capable]
-    routing = ["minimax-free", "qwen-free", "nemotron-free", "gpt-oss-groq", "qwen-3-235b-a22b-instruct-2507", "llama-groq"]
-
-    [models.agent-capable.providers.minimax-free]
+    [models.agent-smart.providers.minimax-free]
     type = "openrouter"
     model_name = "minimax/minimax-m2.5:free"
     extra_body = [
         { pointer = "/max_tokens", value = 2048 }
     ]
 
-    [models.agent-capable.providers.qwen-free]
-    type = "openrouter"
-    model_name = "qwen/qwen3-coder:free"
-
-    [models.agent-capable.providers.nemotron-free]
+    [models.agent-smart.providers.nemotron-free]
     type = "openrouter"
     model_name = "nvidia/nemotron-3-super-120b-a12b:free"
 
-    [models.agent-capable.providers.qwen-3-235b-a22b-instruct-2507]
-    type = "openai"
-    api_base = "https://api.cerebras.ai/v1"
-    model_name = "qwen-3-235b-a22b-instruct-2507"
-    api_key_location = "env::CEREBRAS_API_KEY"
+    [models.agent-smart.providers.gemma-google]
+    type = "google_ai_studio_gemini"
+    model_name = "gemma-4-31b-it"
 
-    [models.agent-capable.providers.gpt-oss-groq]
+    [models.agent-smart.providers.gpt-oss-groq]
     type = "groq"
     model_name = "openai/gpt-oss-120b"
     extra_body = [
         { pointer = "/max_tokens", value = 2048 }
     ]
-
-    [models.agent-capable.providers.llama-groq]
-    type = "groq"
-    model_name = "llama-3.3-70b-versatile"
-    extra_body = [
-        { pointer = "/max_tokens", value = 2048 }
-    ]
-
-    # [models.agent-capable.providers.gemma-google]
-    # type = "google_ai_studio_gemini"
-    # model_name = "gemma-4-31b-it"
 
     [models.agent-coding]
     routing = ["qwen-free", "nemotron-free", "gpt-oss-groq", "llama-groq"]
@@ -139,24 +142,22 @@ in
 
       agents.defaults = {
         model.primary = "tensorzero/tensorzero::function_name::agent-fast";
-        model.fallbacks = [
-          "tensorzero/tensorzero::function_name::agent-fast-gemma"
-        ];
         models = {
           "tensorzero/tensorzero::function_name::agent-fast".alias = "agent-fast";
-          "tensorzero/tensorzero::function_name::agent-fast-gemma".alias = "agent-fast-gemma";
-          "tensorzero/tensorzero::model_name::agent-capable".alias = "agent-capable";
+          "tensorzero/tensorzero::model_name::agent-smart".alias = "agent-smart";
           "tensorzero/tensorzero::model_name::agent-coding".alias = "agent-coding";
         };
         timeoutSeconds = 180;
       };
 
-      tools.media.audio = {
-        enabled = true;
-        echoTranscript = true;
-        models = [
-          { provider = "groq"; }
-        ];
+      tools = {
+        media.audio = {
+          enabled = true;
+          echoTranscript = true;
+          models = [
+            { provider = "groq"; model = "whisper-large-v3-turbo"; }
+          ];
+        };
       };
 
       models = {
@@ -172,13 +173,8 @@ in
               input = [ "text" ];
             }
             {
-              id = "tensorzero::function_name::agent-fast-gemma";
-              name = "TensorZero agent-fast-gemma";
-              input = [ "text" ];
-            }
-            {
-              id = "tensorzero::model_name::agent-capable";
-              name = "TensorZero agent-capable";
+              id = "tensorzero::model_name::agent-smart";
+              name = "TensorZero agent-smart";
               input = [ "text" ];
             }
             {
