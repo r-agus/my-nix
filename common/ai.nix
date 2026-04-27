@@ -5,50 +5,87 @@ let
     [gateway]
     bind_address = "0.0.0.0:3000"
 
-    [models.agent-default]
+    # Keep the main fast path tool-capable. Gemma stays as a last-resort
+    # fallback behind a separate TensorZero function with tool use disabled.
+    [models.agent-fast]
+    routing = ["gemini-3-flash-preview", "qwen-3-235b-a22b-instruct-2507"]
+
+    [models.agent-fast.providers.gemini-3-flash-preview]
+    type = "google_ai_studio_gemini"
+    model_name = "gemini-3-flash-preview"
+
+    [models.agent-fast.providers.qwen-3-235b-a22b-instruct-2507]
+    type = "openai"
+    api_base = "https://api.cerebras.ai/v1"
+    model_name = "qwen-3-235b-a22b-instruct-2507"
+    api_key_location = "env::CEREBRAS_API_KEY"
+
+    [functions.agent-fast]
+    type = "chat"
+
+    [functions.agent-fast.variants.gemini-first]
+    type = "chat_completion"
+    model = "agent-fast"
+
+    [models.agent-fast-gemma]
+    routing = ["gemma-google"]
+
+    [models.agent-fast-gemma.providers.gemma-google]
+    type = "google_ai_studio_gemini"
+    model_name = "gemma-4-31b-it"
+
+    [functions.agent-fast-gemma]
+    type = "chat"
+    tool_choice = "none"
+
+    [functions.agent-fast-gemma.variants.gemma-last-resort]
+    type = "chat_completion"
+    model = "agent-fast-gemma"
+
+    [models.agent-capable]
     routing = ["minimax-free", "qwen-free", "nemotron-free", "gpt-oss-groq", "qwen-3-235b-a22b-instruct-2507", "llama-groq"]
 
-    [models.agent-default.providers.minimax-free]
+    [models.agent-capable.providers.minimax-free]
     type = "openrouter"
     model_name = "minimax/minimax-m2.5:free"
     extra_body = [
         { pointer = "/max_tokens", value = 2048 }
     ]
 
-    [models.agent-default.providers.qwen-free]
+    [models.agent-capable.providers.qwen-free]
     type = "openrouter"
     model_name = "qwen/qwen3-coder:free"
 
-    [models.agent-default.providers.nemotron-free]
+    [models.agent-capable.providers.nemotron-free]
     type = "openrouter"
     model_name = "nvidia/nemotron-3-super-120b-a12b:free"
 
-    [models.agent-default.providers.qwen-3-235b-a22b-instruct-2507]
+    [models.agent-capable.providers.qwen-3-235b-a22b-instruct-2507]
     type = "openai"
     api_base = "https://api.cerebras.ai/v1"
     model_name = "qwen-3-235b-a22b-instruct-2507"
     api_key_location = "env::CEREBRAS_API_KEY"
 
-    [models.agent-default.providers.gpt-oss-groq]
+    [models.agent-capable.providers.gpt-oss-groq]
     type = "groq"
     model_name = "openai/gpt-oss-120b"
     extra_body = [
         { pointer = "/max_tokens", value = 2048 }
     ]
 
-    [models.agent-default.providers.llama-groq]
+    [models.agent-capable.providers.llama-groq]
     type = "groq"
     model_name = "llama-3.3-70b-versatile"
     extra_body = [
         { pointer = "/max_tokens", value = 2048 }
     ]
 
-    # [models.agent-default.providers.gemma-google]
+    # [models.agent-capable.providers.gemma-google]
     # type = "google_ai_studio_gemini"
     # model_name = "gemma-4-31b-it"
 
     [models.agent-coding]
-    routing = ["qwen-free", "nemotron-free", "gpt-oss-groq", "llama-groq", "gemma-google"]
+    routing = ["qwen-free", "nemotron-free", "gpt-oss-groq", "llama-groq"]
 
     [models.agent-coding.providers.qwen-free]
     type = "openrouter"
@@ -72,15 +109,18 @@ let
         { pointer = "/max_tokens", value = 2048 }
     ]
 
-    [models.agent-coding.providers.gemma-google]
-    type = "google_ai_studio_gemini"
-    model_name = "gemma-4-31b-it"
   '';
 in
 {
   imports = [
     inputs.openclaw.nixosModules.openclaw-gateway
   ];
+
+  fileSystems."/var/lib/openclaw/.openclaw/workspace/nixos-config" = {
+    device = "/home/ruben/nixos-config";
+    fsType = "none";
+    options = [ "bind" "ro" ];
+  };
 
   services.openclaw-gateway = {
     enable = true;
@@ -98,18 +138,24 @@ in
       };
 
       agents.defaults = {
-        model.primary = "tensorzero/tensorzero::model_name::agent-default";
+        model.primary = "tensorzero/tensorzero::function_name::agent-fast";
+        model.fallbacks = [
+          "tensorzero/tensorzero::function_name::agent-fast-gemma"
+        ];
         models = {
-          "tensorzero/tensorzero::model_name::agent-default".alias = "agent-default";
+          "tensorzero/tensorzero::function_name::agent-fast".alias = "agent-fast";
+          "tensorzero/tensorzero::function_name::agent-fast-gemma".alias = "agent-fast-gemma";
+          "tensorzero/tensorzero::model_name::agent-capable".alias = "agent-capable";
           "tensorzero/tensorzero::model_name::agent-coding".alias = "agent-coding";
         };
+        timeoutSeconds = 180;
       };
 
       tools.media.audio = {
         enabled = true;
         echoTranscript = true;
         models = [
-          { provider = "groq"; model = "whisper-large-v3-turbo"; }
+          { provider = "groq"; }
         ];
       };
 
@@ -121,26 +167,24 @@ in
           apiKey = "sk-tensorzero-local";
           models = [
             {
-              id = "tensorzero::model_name::agent-default";
-              name = "TensorZero agent-default";
+              id = "tensorzero::function_name::agent-fast";
+              name = "TensorZero agent-fast";
+              input = [ "text" ];
+            }
+            {
+              id = "tensorzero::function_name::agent-fast-gemma";
+              name = "TensorZero agent-fast-gemma";
+              input = [ "text" ];
+            }
+            {
+              id = "tensorzero::model_name::agent-capable";
+              name = "TensorZero agent-capable";
               input = [ "text" ];
             }
             {
               id = "tensorzero::model_name::agent-coding";
               name = "TensorZero agent-coding";
               input = [ "text" ];
-            }
-          ];
-        };
-        providers.groq = {
-          api = "openai-completions";
-          baseUrl = "https://api.groq.com/openai/v1";
-          apiKeyEnv = "GROQ_API_KEY";
-          models = [
-            {
-              id = "whisper-large-v3-turbo";
-              name = "Whisper Large v3 Turbo";
-              input = [ "audio" ];
             }
           ];
         };
