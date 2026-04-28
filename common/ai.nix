@@ -158,6 +158,44 @@ in
             { provider = "groq"; model = "whisper-large-v3-turbo"; }
           ];
         };
+        media.image = {
+          enabled = true;
+          models = [
+            {
+              provider = "gemini";
+              model = "gemma-4-31b-it";
+              capabilities = [ "image" ];
+            }
+            {
+              provider = "openrouter";
+              model = "google/gemma-4-31b-it:free";
+              capabilities = [ "image" ];
+            }
+            {
+              provider = "gemini";
+              model = "gemini-3.1-flash-lite-preview";
+              capabilities = [ "image" ];
+            }
+          ];
+        };
+        media.video = {
+          enabled = true;
+          maxBytes = 52428800; # 50 MB
+          maxChars = 800;
+          timeoutSeconds = 120;
+          models = [
+            { provider = "gemini"; model = "gemini-3.1-flash-lite-preview"; }
+            { provider = "gemini"; model = "gemini-3-flash-preview"; }
+          ];
+        };
+        web.search = {
+          enabled = true;
+          provider = "gemini";
+        };
+      };
+
+      plugins.entries.google.config.webSearch = {
+        model = "gemini-2.5-flash";
       };
 
       models = {
