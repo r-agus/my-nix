@@ -1,8 +1,15 @@
 {
   "currentThemeName": "purple",
   "currentThemeCategory": "generic",
-  "customThemeFile": "",
-  "registryThemeVariants": {},
+  "customThemeFile": "/home/ruben/.config/DankMaterialShell/themes/tokyoNight/theme.json",
+  "registryThemeVariants": {
+    "amoledBlack": {
+      "dark": {
+        "flavor": "black",
+        "accent": "dark-green"
+      }
+    }
+  },
   "matugenScheme": "scheme-tonal-spot",
   "runUserMatugenTemplates": true,
   "matugenTargetMonitor": "",
@@ -36,6 +43,12 @@
   "modalAnimationSpeed": 1,
   "modalCustomAnimationDuration": 150,
   "enableRippleEffects": true,
+  "blurEnabled": false,
+  "blurForegroundLayers": true,
+  "blurLayerOutlineOpacity": 0.12,
+  "blurBorderColor": "outline",
+  "blurBorderCustomColor": "#ffffff",
+  "blurBorderOpacity": 0.35,
   "wallpaperFillMode": "Fill",
   "blurredWallpaperLayer": false,
   "blurWallpaperOnOverview": true,
@@ -52,6 +65,9 @@
   "selectedGpuIndex": 0,
   "enabledGpuPciIds": [],
   "showSystemTray": true,
+  "systemTrayIconTintMode": "none",
+  "systemTrayIconTintSaturation": 50,
+  "systemTrayIconTintStrength": 135,
   "showClock": true,
   "showNotificationButton": true,
   "showBattery": true,
@@ -210,8 +226,8 @@
   "networkPreference": "ethernet",
   "iconTheme": "System Default",
   "cursorSettings": {
-    "theme": "Adwaita",
-    "size": 24,
+    "theme": "breeze_cursors",
+    "size": 27,
     "niri": {
       "hideWhenTyping": false,
       "hideAfterInactiveMs": 0
