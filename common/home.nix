@@ -87,6 +87,8 @@ in
 
     spotube
     freetube
+
+    inputs.codex-cli-nix.packages.${pkgs.system}.default
   ];
 
   nixGL.vulkan.enable = true;
@@ -185,6 +187,11 @@ in
       mpris
       # thumbfast
     ];
+  };
+
+  programs.vscode = {
+    enable = true;
+    package = pkgs.vscode;
   };
 
   services.kanshi = {
