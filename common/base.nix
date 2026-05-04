@@ -112,11 +112,10 @@
     unzip
 
     gemini-cli-bin
-    codex
 
     localsend
 
-    vscode
+    # vscode
     inputs.antigravity-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
     inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
     # rustup
@@ -213,8 +212,8 @@
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.permittedInsecurePackages = [
-    "ventoy-1.1.10"
-    "openclaw-2026.4.2"
+    "ventoy-1.1.12"
+    "openclaw-2026.4.21"
     "openclaw-gateway-2026.4.23"
   ];
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -273,13 +272,13 @@
       variant = "altgr-intl";
   };
 
-  services.n8n = {
-    enable = true;
-    environment = {
-      NODE_FUNCTION_ALLOW_BUILTIN = "*";
-      NODE_FUNCTION_ALLOW_EXTERNAL = "*";
-    };
-  };
+  # services.n8n = {
+  #   enable = true;
+  #   environment = {
+  #     NODE_FUNCTION_ALLOW_BUILTIN = "*";
+  #     NODE_FUNCTION_ALLOW_EXTERNAL = "*";
+  #   };
+  # };
 
   services.gvfs.enable = true;
   services.udisks2.enable = true;
@@ -373,6 +372,26 @@ EOF
     sopsFile = ../common/cert.enc.p12;
     format = "binary";
     owner = "ruben";
+  };
+
+  virtualisation.oci-containers.containers.n8n = {
+    image = "docker.io/n8nio/n8n:latest";
+    ports = [ "127.0.0.1:5678:5678" ];
+
+    volumes = [
+      "/var/lib/n8n-container:/home/node/.n8n"
+      "/nix/store:/nix/store:ro"
+      "${pkgs.typst}/bin/typst:/usr/local/bin/typst:ro"
+    ];
+
+    environment = {
+      NODE_FUNCTION_ALLOW_BUILTIN = "*";
+      NODE_FUNCTION_ALLOW_EXTERNAL = "*";
+      N8N_HOST = "127.0.0.1";
+      N8N_PORT = "5678";
+      N8N_PROTOCOL = "http";
+      PATH = "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin";
+    };
   };
 
   # Copy the NixOS configuration file and link it from the resulting system
