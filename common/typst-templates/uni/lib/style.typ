@@ -13,7 +13,12 @@
       let (p,) = counter(page).get()
 
       let even = rem(p, 2) == 0
-      let left_text  = if even { course } else { author }
+      
+      let headings = query(selector(heading.where(level: 1)))
+      let active_heading = headings.rev().find(h => h.location().page() <= p)
+      let chapter = if active_heading != none { active_heading.body } else { "" }
+
+      let left_text  = if even { course } else { chapter }
       let right_text = if even { author } else { title }
 
       set text(size: 9pt, fill: gray)
