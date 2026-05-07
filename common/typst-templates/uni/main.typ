@@ -1,5 +1,8 @@
+#import "@preview/acrostiche:0.7.0": *
+
 #import "lib/style.typ": setup
 #import "cover.typ": cover
+#import "acronym.typ": acronyms
 
 #let doc_title = "<Title>"
 #let authors_portrait = ("Rubén Agustín",)
@@ -23,5 +26,19 @@
   authors_header,
   doc_title,
 )
+
+#set page(numbering: "I")
+
+#outline()
+#pagebreak()
+#outline(title: "Table of Figures", target: figure.where(kind: image))
+#pagebreak()
+#outline(title: "Table of Tables", target: figure.where(kind: table))
+#init-acronyms(acronyms)
+#pagebreak()
+#print-index(sorted: "up", title: "Table of Acronyms")
+
+#set page(numbering: "1")
+#counter(page).update(1)
 
 #include "chap/placeholder.typ"
