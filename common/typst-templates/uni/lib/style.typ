@@ -11,11 +11,11 @@
 
     header: context {
       let (p,) = counter(page).get()
+      let phys_page = here().page()
 
       let even = rem(p, 2) == 0
-      
       let headings = query(selector(heading.where(level: 1)))
-      let active_heading = headings.rev().find(h => h.location().page() <= p)
+      let active_heading = headings.rev().find(h => h.location().page() <= phys_page)
       let chapter = if active_heading != none { active_heading.body } else { "" }
 
       let left_text  = if even { course } else { chapter }
