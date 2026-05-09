@@ -19,7 +19,7 @@
     powerManagement.finegrained = false;
     open = false; # GTX 1060: Use nvidia old drivers (propertary)
     nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
+    package = config.boot.kernelPackages.nvidiaPackages.legacy_535;
   };
 
   home-manager.users.ruben = { pkgs, ... }: {
@@ -30,20 +30,20 @@
       };
       timeouts = [
         {
-          timeout = 240; 
+          timeout = 2400; 
           command = "${pkgs.kitty}/bin/kitty --class screensaver -e ${pkgs.cmatrix}/bin/cmatrix -abs";
         }
         {
-          timeout = 300; 
+          timeout = 3000; 
           command = "/run/current-system/sw/bin/dms ipc call lock lock";
         }
         {
-          timeout = 600; 
+          timeout = 6000; 
           command = "${pkgs.niri}/bin/niri msg action power-off-monitors";
           resumeCommand = "${pkgs.niri}/bin/niri msg action power-on-monitors";
         }
         {
-          timeout = 1800; 
+          timeout = 18000; 
           command = "${pkgs.systemd}/bin/systemctl suspend";
         }
       ];
