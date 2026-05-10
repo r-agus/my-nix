@@ -30,7 +30,7 @@
     };
 
     niri = {
-      url = "github:YaLTeR/niri/main";
+      url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -59,6 +59,7 @@
         specialArgs = { inherit inputs; };
         modules = [
           sops-nix.nixosModules.sops
+          inputs.niri.nixosModules.niri
           ./hosts/sobremesa/default.nix
 
           home-manager.nixosModules.home-manager
@@ -78,6 +79,7 @@
         specialArgs = { inherit inputs; };
         modules = [
           sops-nix.nixosModules.sops
+          inputs.niri.nixosModules.niri
           ./hosts/portatil/default.nix
 
           home-manager.nixosModules.home-manager

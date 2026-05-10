@@ -228,7 +228,7 @@
 
   # Niri
   programs.niri.enable = true;
-  programs.niri.package = inputs.niri.packages.${pkgs.stdenv.hostPlatform.system}.default;
+  programs.niri.package = inputs.niri.packages.${pkgs.stdenv.hostPlatform.system}.niri-unstable;
 
   xdg.portal = {
     enable = true;
