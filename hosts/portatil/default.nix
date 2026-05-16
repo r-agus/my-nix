@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 {
   imports = [
     ./hardware.nix
@@ -15,6 +15,10 @@
 
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
+  hardware.graphics.extraPackages = with pkgs; [
+    intel-compute-runtime
+    intel-media-driver
+  ];
 
   my.vpn.ipv4 = "10.10.20.5/24";
   networking.hostName = "Portatil-nixos";

@@ -82,6 +82,7 @@ in
     grim
     satty
     obs-studio
+    davinci-resolve
 
     kdePackages.okular
     inputs.autofirma-nix.packages.${pkgs.system}.autofirma
@@ -115,6 +116,7 @@ in
       batcare = "echo 80 | sudo tee /sys/devices/platform/lg-laptop/battery_care_limit > /dev/null";
       batlong = "echo 100 | sudo tee /sys/devices/platform/lg-laptop/battery_care_limit > /dev/null";
       batwatch = "cat /sys/devices/platform/lg-laptop/battery_care_limit";
+      davinci-resolve = "QT_QPA_PLATFORM=xcb davinci-resolve";
     };
 
     defaultKeymap = "emacs";

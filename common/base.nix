@@ -178,7 +178,7 @@
   users.users.ruben = {
      isNormalUser = true;
      shell = pkgs.zsh;
-     extraGroups = [ "networkmanager" "wheel" "video" ]; # Enable ‘sudo’ for the user.
+     extraGroups = [ "networkmanager" "wheel" "video" "render" ];
      initialPassword = "password";
      homeMode = "711";
      packages = with pkgs; [
