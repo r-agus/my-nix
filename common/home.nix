@@ -117,10 +117,6 @@ in
     };
 
     defaultKeymap = "emacs";
-
-    initContent = ''
-      . "$HOME/.cargo/env"
-    '';
   };
 
   programs.git = {
