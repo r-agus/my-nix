@@ -558,13 +558,13 @@ in
     inputs.openclaw.nixosModules.openclaw-gateway
   ];
 
-  environment.systemPackages = [
-    (lib.hiPrio (pkgs.writeShellScriptBin "openclaw" ''
-      export OPENCLAW_GATEWAY_TOKEN="$(cat ${config.sops.secrets.openclaw_gateway_token.path})"
-      exec ${openclawPkg}/bin/openclaw "$@"
-    ''))
-    inputs.openclaw.packages.${pkgs.system}.openclaw-tools
-  ];
+  environment.systemPackages = with pkgs; [
+      (lib.hiPrio (pkgs.writeShellScriptBin "openclaw" ''
+        export OPENCLAW_GATEWAY_TOKEN="$(cat ${config.sops.secrets.openclaw_gateway_token.path})"
+        export OPENCLAW_NIX_MODE=1
+        exec ${openclawPkg}/bin/openclaw "$@"
+      ''))
+    ];
 
   fileSystems."/var/lib/openclaw/.openclaw/workspace/nixos-config" = {
     device = "/home/ruben/nixos-config";
