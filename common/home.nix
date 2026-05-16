@@ -76,6 +76,7 @@ in
     neovide
     jetbrains.idea
     pkgs.zed-editor
+    pkgs.brave
     ventoy
 
     grim
