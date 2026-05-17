@@ -91,7 +91,7 @@
     EDITOR =  "vim";
     GTK_THEME = "Adwaita:dark";
     GTK_APPLICATION_PREFER_DARK_THEME = "1";
-    QT_QPA_PLATFORM = "wayland";
+    QT_QPA_PLATFORM = "wayland;xcb";
   };
 
   environment.systemPackages = with pkgs; [

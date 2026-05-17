@@ -82,6 +82,10 @@ in
     grim
     satty
     obs-studio
+    (lib.hiPrio (pkgs.writeShellScriptBin "davinci-resolve" ''
+      export QT_QPA_PLATFORM=xcb
+      exec ${pkgs.davinci-resolve}/bin/davinci-resolve "$@"
+    ''))
     davinci-resolve
 
     kdePackages.okular
