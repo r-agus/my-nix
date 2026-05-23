@@ -78,6 +78,7 @@ in
     pkgs.zed-editor
     pkgs.brave
     ventoy
+    pdfpc
 
     grim
     satty
