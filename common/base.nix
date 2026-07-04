@@ -213,7 +213,7 @@
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.permittedInsecurePackages = [
     "ventoy-1.1.12"
-    "openclaw-2026.5.7"
+    "openclaw-2026.6.5"
     "openclaw-gateway-2026.4.23"
   ];
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

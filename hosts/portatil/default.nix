@@ -13,8 +13,20 @@
   services.hardware.bolt.enable = true;
   services.xserver.videoDrivers = [ "displaylink" "modesetting" ];
 
-  hardware.bluetooth.enable = true;
-  hardware.bluetooth.powerOnBoot = true;
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+    package = pkgs.bluez.overrideAttrs (old: {
+      patches = (old.patches or [ ]) ++ [
+        # Fix BlueZ 5.86 A2DP profile ordering for devices that expose both
+        # source and sink roles, such as the Sony HT-SF150 soundbar.
+        (pkgs.fetchpatch {
+          url = "https://github.com/bluez/bluez/commit/066a164.patch";
+          hash = "sha256-iitdib8VxPWaBUXrxAJ4/YHdBUDMGiDDSEBK+c4aPoE=";
+        })
+      ];
+    });
+  };
   hardware.graphics.extraPackages = with pkgs; [
     intel-compute-runtime
     intel-media-driver

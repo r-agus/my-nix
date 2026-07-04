@@ -403,7 +403,7 @@
   "powerMenuGridLayout": false,
   "customPowerActionLock": "",
   "customPowerActionLogout": "",
-  "customPowerActionSuspend": "",
+  "customPowerActionSuspend": "systemctl suspend -i",
   "customPowerActionHibernate": "",
   "customPowerActionReboot": "",
   "customPowerActionPowerOff": "",
