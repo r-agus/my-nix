@@ -41,7 +41,6 @@
 
     openclaw = {
       url = "github:openclaw/nix-openclaw";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     codex-cli-nix = {
