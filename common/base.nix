@@ -213,7 +213,7 @@
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.permittedInsecurePackages = [
     "ventoy-1.1.12"
-    "openclaw-2026.6.5"
+    "openclaw-2026.6.11"
     "openclaw-gateway-2026.4.23"
   ];
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -263,6 +263,7 @@
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
+  services.tailscale.enable = true;
 
   services.resolved.enable = true;
 
