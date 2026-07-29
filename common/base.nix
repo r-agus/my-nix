@@ -236,6 +236,12 @@
       pkgs.xdg-desktop-portal-gtk
       pkgs.xdg-desktop-portal-gnome
     ];
+
+    config.niri = {
+      default = [ "gnome" "gtk" ];
+      "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
+      };
+    config.common.default = [ "gnome" "gtk" ];
   };
 
   xdg.mime.defaultApplications = {
@@ -351,7 +357,7 @@ scope = drive
 
 [nextcloud]
 type = webdav
-url = http://homeserver:8080/remote.php/dav/files/ruben/
+url = https://homeserver.tail887303.ts.net/remote.php/dav/files/ruben
 vendor = nextcloud
 user = r.agussglz@gmail.com
 pass = $NC_PASS_OBSCURED
