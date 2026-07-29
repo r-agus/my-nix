@@ -341,12 +341,20 @@
       # crea el config si no existe
       if [ ! -f "$CONFIG" ]; then
         mkdir -p "$(dirname $CONFIG)"
+        NC_PASS_OBSCURED=$(${pkgs.rclone}/bin/rclone obscure "$(cat ${config.sops.secrets.nextcloud_password.path})")
         cat > "$CONFIG" <<EOF
 [gdrive]
 type = drive
 client_id = $(cat ${config.sops.secrets.google_client_id.path})
 client_secret = $(cat ${config.sops.secrets.google_client_secret.path})
 scope = drive
+
+[nextcloud]
+type = webdav
+url = http://homeserver:8080/remote.php/dav/files/ruben/
+vendor = nextcloud
+user = r.agussglz@gmail.com
+pass = $NC_PASS_OBSCURED
 EOF
         chmod 600 "$CONFIG"
       fi
@@ -373,6 +381,11 @@ EOF
     sopsFile = ../common/cert.enc.p12;
     format = "binary";
     owner = "ruben";
+  };
+
+  sops.secrets.nextcloud_password = {
+    sopsFile = ./secrets.yaml;
+    owner = config.users.users.ruben.name;
   };
 
   virtualisation.oci-containers.containers.n8n = {

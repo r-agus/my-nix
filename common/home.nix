@@ -238,6 +238,35 @@ in
     };
   };
 
+  systemd.user.services.rclone-nextcloud = {
+    Unit = {
+      Description = "mount Nextcloud with rclone";
+      After = [ "network-online.target" ];
+    };
+
+    Install = {
+      WantedBy = [ "default.target" ];
+    };
+
+    Service = {
+      Type = "notify";
+      ExecStartPre = "${pkgs.coreutils}/bin/mkdir -p %h/Nextcloud";
+
+      ExecStart = ''
+        ${pkgs.rclone}/bin/rclone mount nextcloud: %h/Nextcloud \
+          --vfs-cache-mode=writes \
+          --dir-cache-time=1h \
+          --log-level=INFO
+      '';
+
+      # shutdown
+      ExecStop = "/run/wrappers/bin/fusermount -u %h/Nextcloud";
+
+      Restart = "on-failure";
+      RestartSec = "10s";
+    };
+  };
+
   xdg.configFile = (lib.genAttrs managedFiles (name: {
     source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-config/dotfiles/${name}";
   })) // {
