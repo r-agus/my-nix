@@ -4,7 +4,7 @@
 let
   dotfilesDir = ../dotfiles;
   managedFiles = builtins.attrNames (builtins.readDir dotfilesDir);
-  spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.system};
+  spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
 in
 {
   imports = [
@@ -90,15 +90,15 @@ in
     davinci-resolve
 
     kdePackages.okular
-    inputs.autofirma-nix.packages.${pkgs.system}.autofirma
+    inputs.autofirma-nix.packages.${pkgs.stdenv.hostPlatform.system}.autofirma
 
     spotube
     freetube
 
-    inputs.codex-cli-nix.packages.${pkgs.system}.default
+    inputs.codex-cli-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
-  nixGL.vulkan.enable = true;
+  targets.genericLinux.nixGL.vulkan.enable = true;
 
   programs.direnv = {
     enable = true;

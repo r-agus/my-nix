@@ -22,7 +22,10 @@
     package = config.boot.kernelPackages.nvidiaPackages.legacy_535;
   };
 
-  home-manager.users.ruben = { pkgs, ... }: {
+  home-manager.users.ruben = { pkgs, osConfig, ... }:
+  let
+    niri = osConfig.programs.niri.package;
+  in {
     services.swayidle = {
       enable = true;
       events = {
@@ -39,8 +42,8 @@
         }
         {
           timeout = 6000; 
-          command = "${pkgs.niri}/bin/niri msg action power-off-monitors";
-          resumeCommand = "${pkgs.niri}/bin/niri msg action power-on-monitors";
+          command = "${niri}/bin/niri msg action power-off-monitors";
+          resumeCommand = "${niri}/bin/niri msg action power-on-monitors";
         }
         {
           timeout = 18000; 

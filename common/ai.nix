@@ -1,7 +1,7 @@
 { config, lib, pkgs, inputs, ... }:
 
 let
-  openclawPkg = inputs.openclaw.packages.${pkgs.system}.openclaw;
+  openclawPkg = inputs.openclaw.packages.${pkgs.stdenv.hostPlatform.system}.openclaw;
   geminiOpenAIProxyPort = 3002;
   geminiOpenAIProxyBase = "http://localhost:${toString geminiOpenAIProxyPort}/v1beta/openai";
   googleOpenAIProvider = modelName: ''

@@ -38,7 +38,7 @@
   "mangoTrackpadNaturalScrolling": true,
   "firstDayOfWeek": -1,
   "showWeekNumber": false,
-  "calendarBackend": "auto",
+  "calendarBackend": "khal",
   "clockFormat": "24h",
   "showSeconds": false,
   "padHours12Hour": false,
@@ -384,8 +384,8 @@
   "batterySuspendBehavior": 0,
   "batteryProfileName": "",
   "batteryPostLockMonitorTimeout": 0,
-  "batteryChargeLimit": 100,
-  "batteryNotifyChargeLimit": false,
+  "batteryChargeLimit": 80,
+  "batteryNotifyChargeLimit": true,
   "batteryCriticalThreshold": 10,
   "batteryNotifyCritical": true,
   "batteryLowThreshold": 20,
@@ -401,17 +401,6 @@
   "fadeToDpmsEnabled": true,
   "fadeToDpmsGracePeriod": 5,
   "launchPrefix": "",
-  "brightnessDevicePins": {},
-  "wifiNetworkPins": {
-    "preferredWifi": [
-      "eduroam",
-      "Ruben",
-      "MOVISTAR-WIFI6-0818"
-    ]
-  },
-  "bluetoothDevicePins": {},
-  "audioInputDevicePins": {},
-  "audioOutputDevicePins": {},
   "gtkThemingEnabled": false,
   "qtThemingEnabled": false,
   "syncModeWithPortal": true,
@@ -789,5 +778,5 @@
   "barInsetPaddingShared": -1,
   "barInsetPaddingSyncAll": false,
   "frameBarInsetPadding": -1,
-  "configVersion": 12
+  "configVersion": 13
 }

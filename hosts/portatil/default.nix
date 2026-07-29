@@ -51,8 +51,9 @@ in
   my.vpn.ipv4 = "10.10.20.5/24";
   networking.hostName = "Portatil-nixos";
 
-  home-manager.users.ruben = { pkgs, ... }:
+  home-manager.users.ruben = { pkgs, osConfig, ... }:
   let
+    niri = osConfig.programs.niri.package;
     idleHandler = pkgs.writeShellScriptBin "idle-handler" ''
       AC_ONLINE=0
       BAT_CAP=""
@@ -85,31 +86,31 @@ in
       case "$1" in
         60)
           if [ "$MODE" = "AC" ]; then
-            ${pkgs.niri}/bin/niri msg action spawn -- ${pkgs.kitty}/bin/kitty --class screensaver -e ${pkgs.cmatrix}/bin/cmatrix -ab
+            ${niri}/bin/niri msg action spawn -- ${pkgs.kitty}/bin/kitty --class screensaver -e ${pkgs.cmatrix}/bin/cmatrix -ab
           else
-            ${pkgs.niri}/bin/niri msg action spawn -- /run/current-system/sw/bin/dms ipc call lock lock
+            ${niri}/bin/niri msg action spawn -- /run/current-system/sw/bin/dms ipc call lock lock
           fi
           ;;
         70)
           if [ "$MODE" = "BAT" ]; then
-            ${pkgs.niri}/bin/niri msg action power-off-monitors
+            ${niri}/bin/niri msg action power-off-monitors
           fi
           ;;
         120)
           if [ "$MODE" = "AC" ]; then
-            ${pkgs.niri}/bin/niri msg action spawn -- /run/current-system/sw/bin/dms ipc call lock lock
+            ${niri}/bin/niri msg action spawn -- /run/current-system/sw/bin/dms ipc call lock lock
           fi
           ;;
         180)
           if [ "$MODE" = "AC" ]; then
-            ${pkgs.niri}/bin/niri msg action power-off-monitors
+            ${niri}/bin/niri msg action power-off-monitors
           fi
           ;;
       esac
     '';
 
     idleResume = pkgs.writeShellScriptBin "idle-resume" ''
-      ${pkgs.niri}/bin/niri msg action power-on-monitors
+      ${niri}/bin/niri msg action power-on-monitors
       ${pkgs.procps}/bin/pkill -x cmatrix || true
     '';
 
@@ -139,7 +140,7 @@ in
     services.swayidle = {
       enable = true;
       events = {
-        before-sleep = "${pkgs.niri}/bin/niri msg action spawn -- /run/current-system/sw/bin/dms ipc call lock lock";
+        before-sleep = "${niri}/bin/niri msg action spawn -- /run/current-system/sw/bin/dms ipc call lock lock";
       };
       timeouts = [
         { timeout = 1600;  command = "${idleHandler}/bin/idle-handler 60";  resumeCommand = "${idleResume}/bin/idle-resume"; }
