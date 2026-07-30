@@ -357,7 +357,7 @@ scope = drive
 
 [nextcloud]
 type = webdav
-url = https://homeserver.tail887303.ts.net/remote.php/dav/files/ruben
+url = https://nextcloud.home.arpa/remote.php/dav/files/ruben
 vendor = nextcloud
 user = r.agussglz@gmail.com
 pass = $NC_PASS_OBSCURED
