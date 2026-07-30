@@ -9,6 +9,7 @@ in
 {
   imports = [
     inputs.spicetify-nix.homeManagerModules.default
+    inputs.dankcalendar.homeModules.dank-calendar
   ];
 
   accounts.email.accounts = {
@@ -197,6 +198,8 @@ in
     enable = true;
     package = pkgs.vscode;
   };
+
+  programs.dank-calendar.enable = true;
 
   services.kanshi = {
     enable = true;
