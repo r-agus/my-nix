@@ -110,7 +110,7 @@
       owner = "root";
       group = "root";
       mode = "0600";
-      
+
       content = ''
         [connection]
         id=eduroam
@@ -135,7 +135,7 @@
         ca-cert=/etc/ssl/certs/uc3m-ca.pem
       '';
     };
-    
+
     environment.etc."ssl/certs/uc3m-ca.pem" = {
       mode = "0444";
       text = ''

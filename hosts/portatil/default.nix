@@ -48,6 +48,7 @@ in
     intel-media-driver
   ];
 
+  my.syncthing.deviceName = "portatil";
   my.vpn.ipv4 = "10.10.20.5/24";
   networking.hostName = "Portatil-nixos";
 

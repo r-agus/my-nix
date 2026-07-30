@@ -8,6 +8,7 @@
 
   sops.defaultSopsFile = ./secrets.yaml;
 
+  my.syncthing.deviceName = "sobremesa";
   my.vpn.ipv4 = "10.10.20.3/24";
   networking.hostName = "PC-nixos";
 
@@ -33,20 +34,20 @@
       };
       timeouts = [
         {
-          timeout = 2400; 
+          timeout = 2400;
           command = "${pkgs.kitty}/bin/kitty --class screensaver -e ${pkgs.cmatrix}/bin/cmatrix -abs";
         }
         {
-          timeout = 3000; 
+          timeout = 3000;
           command = "/run/current-system/sw/bin/dms ipc call lock lock";
         }
         {
-          timeout = 6000; 
+          timeout = 6000;
           command = "${niri}/bin/niri msg action power-off-monitors";
           resumeCommand = "${niri}/bin/niri msg action power-on-monitors";
         }
         {
-          timeout = 18000; 
+          timeout = 18000;
           command = "${pkgs.systemd}/bin/systemctl suspend";
         }
       ];
