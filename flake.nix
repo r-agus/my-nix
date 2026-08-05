@@ -52,9 +52,11 @@
       url = "github:sadjow/codex-cli-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    llm-agents.url = "github:numtide/llm-agents.nix";
   };
 
-  outputs = { self, nixpkgs, sops-nix, home-manager, niri, spicetify-nix, ... }@inputs: {
+  outputs = { self, nixpkgs, sops-nix, home-manager, niri, spicetify-nix, llm-agents,... }@inputs: {
     nixosConfigurations = {
 
       # PC sobremesa

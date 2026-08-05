@@ -97,6 +97,8 @@ in
     freetube
 
     inputs.codex-cli-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
+    antigravity-cli
+    claw-code
   ];
 
   targets.genericLinux.nixGL.vulkan.enable = true;

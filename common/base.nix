@@ -112,15 +112,10 @@
     unrar
     unzip
 
-    gemini-cli-bin
-
     localsend
 
-    # vscode
     inputs.antigravity-nix.packages.${pkgs.stdenv.hostPlatform.system}.default
     inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.default
-    # rustup
-    # gcc
     stlink
 
     # Dolphin y qt
@@ -300,6 +295,9 @@
 
   security.polkit.enable = true;
   security.rtkit.enable = true;
+  security.pki.certificateFiles = [
+    ./certs/homeserver-root-ca.crt
+  ];
 
   systemd.user.services.polkit-kde-authentication-agent-1 = {
     description = "polkit-kde-authentication-agent-1";
