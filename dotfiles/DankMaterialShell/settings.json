@@ -36,9 +36,9 @@
   "mangoLayoutRadiusOverride": -1,
   "mangoLayoutBorderSize": -1,
   "mangoTrackpadNaturalScrolling": true,
-  "firstDayOfWeek": -1,
+  "firstDayOfWeek": 1,
   "showWeekNumber": false,
-  "calendarBackend": "khal",
+  "calendarBackend": "auto",
   "clockFormat": "24h",
   "showSeconds": false,
   "padHours12Hour": false,
@@ -249,8 +249,8 @@
   "runningAppsCurrentMonitor": false,
   "appIdSubstitutions": [],
   "centeringMode": "index",
-  "clockDateFormat": "",
-  "lockDateFormat": "",
+  "clockDateFormat": "ddd d MMM yyyy",
+  "lockDateFormat": "ddd d MMM yyyy",
   "greeterRememberLastSession": true,
   "greeterRememberLastUser": true,
   "greeterAutoLogin": false,
@@ -291,7 +291,7 @@
   "dankLauncherV2IncludeFilesInAll": false,
   "dankLauncherV2IncludeFoldersInAll": false,
   "launcherUseOverlayLayer": false,
-  "launcherStyle": "full",
+  "launcherStyle": "spotlight",
   "spotlightBarShowModeChips": false,
   "keybindsFloatingWindow": false,
   "useAutoLocation": true,
@@ -307,7 +307,7 @@
     },
     {
       "id": "wallpaper",
-      "enabled": true
+      "enabled": false
     },
     {
       "id": "weather",
@@ -444,13 +444,13 @@
     }
   },
   "matugenTemplateNeovimSetBackground": true,
-  "showDock": true,
+  "showDock": false,
   "dockAutoHide": true,
   "dockSmartAutoHide": false,
   "dockUseOverlayLayer": false,
   "dockGroupByApp": false,
   "dockRestoreSpecialWorkspaceOnClick": false,
-  "dockOpenOnOverview": true,
+  "dockOpenOnOverview": false,
   "dockPosition": 1,
   "dockSpacing": 4,
   "dockBottomGap": 0,
@@ -604,7 +604,7 @@
         {
           "id": "music",
           "enabled": true,
-          "mediaSize": 0
+          "mediaSize": 1
         },
         {
           "id": "clock",
@@ -613,6 +613,10 @@
         },
         {
           "id": "weather",
+          "enabled": false
+        },
+        {
+          "id": "dankPomodoroTimer",
           "enabled": true
         }
       ],
@@ -746,6 +750,9 @@
   "builtInPluginSettings": {
     "dms_settings_search": {
       "trigger": "?"
+    },
+    "dms_clipboard_search": {
+      "trigger": "cb"
     }
   },
   "clipboardClickToPaste": false,
@@ -761,14 +768,14 @@
   "launcherPluginOrder": [],
   "frameEnabled": false,
   "frameThickness": 16,
-  "frameRounding": 23,
-  "frameColor": "",
+  "frameRounding": 6,
+  "frameColor": "surface",
   "frameOpacity": 1,
   "frameScreenPreferences": [
     "all"
   ],
   "frameBarSize": 40,
-  "frameShowOnOverview": false,
+  "frameShowOnOverview": true,
   "frameBlurEnabled": true,
   "frameCloseGaps": true,
   "frameLauncherEmergeSide": "bottom",

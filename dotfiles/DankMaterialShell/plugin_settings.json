@@ -1,5 +1,14 @@
 {
   "dankKDEConnect": {
     "enabled": true
+  },
+  "dankDesktopWeather": {
+    "enabled": true
+  },
+  "dankLauncherKeys": {
+    "enabled": true
+  },
+  "dankPomodoroTimer": {
+    "enabled": true
   }
 }

@@ -219,6 +219,12 @@
     options = "--delete-older-than 7d";
   };
   nix.settings.auto-optimise-store = true;
+  nix.settings = {
+    extra-substituters = [ "https://cache.numtide.com" ];
+    extra-trusted-public-keys = [
+      "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
+    ];
+  };
   hardware.graphics.enable = true;
   hardware.brillo.enable = true;
 
