@@ -49,6 +49,9 @@ in
   };
 
   home.packages = with pkgs; [
+    ripgrep
+    fd
+
     rclone
     typst
     neovim
@@ -87,6 +90,13 @@ in
     nix-direnv.enable = true;
   };
 
+  programs.eza = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+
+  programs.bat.enable = true;
+
   programs.starship = {
      enable = true;
      enableZshIntegration = true;
@@ -102,6 +112,10 @@ in
       batcare = "echo 80 | sudo tee /sys/devices/platform/lg-laptop/battery_care_limit > /dev/null";
       batlong = "echo 100 | sudo tee /sys/devices/platform/lg-laptop/battery_care_limit > /dev/null";
       batwatch = "cat /sys/devices/platform/lg-laptop/battery_care_limit";
+      ls = "eza --icons --group-directories-first";
+      lls = "command ls";
+      cat = "bat";
+      ccat = "command cat";
       davinci-resolve = "QT_QPA_PLATFORM=xcb davinci-resolve";
     };
 
