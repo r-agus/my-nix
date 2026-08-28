@@ -208,7 +208,6 @@
 
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.permittedInsecurePackages = [
-    "ventoy-1.1.17"
     "openclaw-2026.6.11"
     "openclaw-gateway-2026.4.23"
   ];

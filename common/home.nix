@@ -34,7 +34,6 @@ in
     jetbrains.idea
     pkgs.zed-editor
     pkgs.brave
-    ventoy
     pdfpc
 
     grim
