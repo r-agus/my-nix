@@ -1,0 +1,32 @@
+[formatter.nix]
+command = "alejandra"
+includes = ["*.nix"]
+
+[formatter.rust]
+command = "rustfmt"
+includes = ["*.rs"]
+
+[formatter.python]
+command = "ruff"
+options = ["format"]
+includes = ["*.py"]
+
+[formatter.go]
+command = "gofumpt"
+options = ["-l", "-w"]
+includes = ["*.go"]
+
+[formatter.web]
+command = "prettier"
+options = ["--write"]
+includes = ["*.js", "*.jsx", "*.ts", "*.tsx", "*.json", "*.css", "*.md", "*.yaml", "*.yml"]
+
+[formatter.shell]
+command = "shfmt"
+options = ["-w"]
+includes = ["*.sh", "*.bash"]
+
+[formatter.c-cpp]
+command = "clang-format"
+options = ["-i"]
+includes = ["*.c", "*.h", "*.cpp", "*.hpp", "*.cc", "*.cxx"]

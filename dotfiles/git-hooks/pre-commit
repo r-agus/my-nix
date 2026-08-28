@@ -1,0 +1,160 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+readonly TREEFMT_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/treefmt/treefmt.toml"
+readonly EXPECTED_CONFIG_HASH="@configHash@"
+readonly REPO_ROOT="$(git rev-parse --show-toplevel)"
+
+cd "$REPO_ROOT"
+
+if [[ ! -f "$TREEFMT_CONFIG" ]]; then
+  printf 'treefmt pre-commit: configuration not found: %s\n' "$TREEFMT_CONFIG" >&2
+  exit 1
+fi
+
+actual_config_hash="$(sha256sum "$TREEFMT_CONFIG")"
+actual_config_hash="${actual_config_hash%% *}"
+
+if [[ "$actual_config_hash" != "$EXPECTED_CONFIG_HASH" ]]; then
+  printf '%s\n' \
+    "treefmt pre-commit: the treefmt configuration changed after this hook was generated." \
+    "Rebuild the Home Manager configuration before committing." >&2
+  exit 1
+fi
+
+mapfile -d '' -t STAGED < <(
+  git diff --cached --name-only --diff-filter=ACMR -z
+)
+((${#STAGED[@]} > 0)) || exit 0
+
+declare -a SELECTED_FORMATTERS=()
+declare -a SELECTED_PATHS=()
+
+matches_any() {
+  local path="$1"
+  local pattern
+  shift
+
+  for pattern in "$@"; do
+    # The right-hand side must stay unquoted so Bash treats it as a glob.
+    if [[ "$path" == $pattern ]]; then
+      return 0
+    fi
+  done
+
+  return 1
+}
+
+contains() {
+  local needle="$1"
+  local item
+  shift
+
+  for item in "$@"; do
+    if [[ "$item" == "$needle" ]]; then
+      return 0
+    fi
+  done
+
+  return 1
+}
+
+select_formatter() {
+  local formatter="$1"
+
+  if ! contains "$formatter" "${SELECTED_FORMATTERS[@]}"; then
+    SELECTED_FORMATTERS+=("$formatter")
+  fi
+}
+
+select_path() {
+  local path="$1"
+
+  if ! contains "$path" "${SELECTED_PATHS[@]}"; then
+    SELECTED_PATHS+=("$path")
+  fi
+}
+
+for path in "${STAGED[@]}"; do
+  if matches_any "$path" @globalExcludes@; then
+    continue
+  fi
+
+  @formatterRules@
+done
+
+((${#SELECTED_PATHS[@]} > 0)) || exit 0
+
+formatters="$(IFS=,; printf '%s' "${SELECTED_FORMATTERS[*]}")"
+
+readonly TEMP_DIR="$(mktemp -d "${TMPDIR:-/tmp}/treefmt-pre-commit.XXXXXX")"
+readonly TEMP_INDEX="$TEMP_DIR/index"
+readonly UNSTAGED_PATCH="$TEMP_DIR/unstaged.patch"
+readonly REAL_INDEX="$(git rev-parse --git-path index)"
+WORKTREE_NEEDS_RESTORE=0
+
+restore_original_worktree() {
+  git restore --worktree -- "${SELECTED_PATHS[@]}" || return 1
+
+  if [[ -s "$UNSTAGED_PATCH" ]]; then
+    git apply --binary --whitespace=nowarn "$UNSTAGED_PATCH" || return 1
+  fi
+}
+
+cleanup() {
+  local status=$?
+  trap - EXIT HUP INT TERM
+
+  if ((WORKTREE_NEEDS_RESTORE)); then
+    if ! restore_original_worktree; then
+      printf 'treefmt pre-commit: recovery data kept at %s\n' "$TEMP_DIR" >&2
+      exit 1
+    fi
+  fi
+
+  rm -rf -- "$TEMP_DIR"
+  exit "$status"
+}
+
+trap cleanup EXIT
+trap 'exit 129' HUP
+trap 'exit 130' INT
+trap 'exit 143' TERM
+
+cp -- "$REAL_INDEX" "$TEMP_INDEX"
+git diff --binary --no-ext-diff --no-color -- \
+  "${SELECTED_PATHS[@]}" >"$UNSTAGED_PATCH"
+
+WORKTREE_NEEDS_RESTORE=1
+git restore --worktree -- "${SELECTED_PATHS[@]}"
+
+if GIT_INDEX_FILE="$TEMP_INDEX" treefmt \
+  --config-file "$TREEFMT_CONFIG" \
+  --tree-root "$REPO_ROOT" \
+  --formatters "$formatters" \
+  --no-cache \
+  -- \
+  "${SELECTED_PATHS[@]}"; then
+  :
+else
+  formatter_status=$?
+  exit "$formatter_status"
+fi
+
+GIT_INDEX_FILE="$TEMP_INDEX" git add -- "${SELECTED_PATHS[@]}"
+
+if [[ -s "$UNSTAGED_PATCH" ]] \
+  && ! git apply --binary --whitespace=nowarn "$UNSTAGED_PATCH"; then
+  printf '%s\n' \
+    "treefmt pre-commit: formatted changes conflict with unstaged changes." \
+    "The original index and worktree will be restored." >&2
+  exit 1
+fi
+
+if ! GIT_INDEX_FILE="$TEMP_INDEX" \
+  git ls-files --stage -z -- "${SELECTED_PATHS[@]}" \
+  | git update-index -z --index-info; then
+  exit 1
+fi
+
+WORKTREE_NEEDS_RESTORE=0
