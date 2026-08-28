@@ -47,7 +47,7 @@ in
     davinci-resolve
 
     kdePackages.okular
-    inputs.autofirma-nix.packages.${pkgs.stdenv.hostPlatform.system}.autofirma
+    # inputs.autofirma-nix.packages.${pkgs.stdenv.hostPlatform.system}.autofirma
 
     spotube
     freetube
