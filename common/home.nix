@@ -28,6 +28,7 @@ in
   imports = [
     ./social.nix
     inputs.spicetify-nix.homeManagerModules.default
+    inputs.codex-desktop-linux.homeManagerModules.default
   ];
 
   home.username = "ruben";
@@ -177,6 +178,8 @@ in
       # thumbfast
     ];
   };
+
+  programs.codexDesktopLinux.enable = true;
 
   programs.vscode = {
     enable = true;

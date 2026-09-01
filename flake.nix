@@ -48,6 +48,8 @@
       url = "github:openclaw/nix-openclaw";
     };
 
+    codex-desktop-linux.url = "github:ilysenko/codex-desktop-linux";
+
     codex-cli-nix = {
       url = "github:sadjow/codex-cli-nix";
       inputs.nixpkgs.follows = "nixpkgs";
