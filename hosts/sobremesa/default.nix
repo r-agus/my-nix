@@ -4,6 +4,7 @@
     ./hardware.nix
     ../../common/base.nix
     ../../common/network.nix
+    ../../common/ai.nix
   ];
 
   sops.defaultSopsFile = ./secrets.yaml;
