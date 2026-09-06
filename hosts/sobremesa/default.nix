@@ -12,6 +12,12 @@
   my.vpn.ipv4 = "10.10.20.3/24";
   networking.hostName = "PC-nixos";
 
+  # Enable the OpenSSH daemon.
+  services.openssh = {
+    enable = true;
+    openFirewall = true;
+  };
+
   services.xserver.videoDrivers = ["nvidia"];
 
   hardware.nvidia = {
