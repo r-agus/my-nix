@@ -51,6 +51,7 @@ let
       # AirLLM is a Python library rather than a CLI. This command is its
       # isolated Python interpreter; scripts can use AIRLLM_DEVICE directly.
       export AIRLLM_DEVICE="${airllmDevice}"
+      export LD_LIBRARY_PATH="${lib.makeLibraryPath [ pkgs.stdenv.cc.cc.lib ]}''${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
       ${lib.optionalString airllmUsesCuda ''
         export LD_LIBRARY_PATH="/run/opengl-driver/lib''${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
       ''}
