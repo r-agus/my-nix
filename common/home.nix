@@ -181,6 +181,8 @@ in
 
   programs.codexDesktopLinux.enable = true;
 
+  programs.t3code.enable = true;
+
   programs.vscode = {
     enable = true;
     package = pkgs.vscode;
