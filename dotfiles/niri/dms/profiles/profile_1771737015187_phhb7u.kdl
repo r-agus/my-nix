@@ -9,12 +9,12 @@ output "DVI-I-1" {
 output "HDMI-A-1" {
     mode "1920x1080@60.000"
     scale 1
-    position x=17720 y=0
+    position x=25400 y=0
 }
 
 output "eDP-1" {
     mode "1920x1200@60.001"
     scale 1
-    position x=19640 y=691
+    position x=27320 y=542
 }
 
