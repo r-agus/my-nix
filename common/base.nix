@@ -86,6 +86,9 @@
     DEFAULT_BROWSER = "${pkgs.kdePackages.dolphin}/bin/dolphin";
     # QT_QPA_PLATFORMTHEME = "qt6ct";
     QT_QPA_PLATFORMTHEME = "gtk3";
+
+    # Fix blank white/gray window in Java AWT/Swing/JavaFX on non-reparenting Wayland compositors (Niri, Hyprland, Sway)
+    _JAVA_AWT_WM_NONREPARENTING = "1";
   };
 
   environment.variables = {
@@ -289,7 +292,7 @@
   services.gvfs.enable = true;
   services.udisks2.enable = true;
   services.flatpak.enable = true;
-  services.udev.packages = [ pkgs.stlink ];
+  services.udev.packages = [ pkgs.stlink pkgs.libiio ];
 
   services.displayManager.dms-greeter = {
     enable = true;
@@ -388,6 +391,12 @@ EOF
     owner = config.users.users.ruben.name;
   };
 
+  virtualisation = {
+    libvirtd.enable = true;
+    spiceUSBRedirection.enable = true;
+  };
+
+  programs.virt-manager.enable = true;
   virtualisation.oci-containers.containers.n8n = {
     image = "docker.io/n8nio/n8n:latest";
     ports = [ "127.0.0.1:5678:5678" ];
