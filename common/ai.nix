@@ -58,9 +58,39 @@ let
       exec "$environment_dir/bin/python" "$@"
     '';
   };
+
+  bonsai = pkgs.writeShellApplication {
+    name = "bonsai";
+    runtimeInputs = with pkgs; [
+      git
+      gcc
+      python312
+      uv
+      curl
+    ];
+
+    text = ''
+      dir="''${XDG_DATA_HOME:-$HOME/.local/share}/bonsai"
+
+      if [[ ! -d "$dir/.git" ]]; then
+        git clone https://github.com/PrismML-Eng/Bonsai-demo "$dir"
+      fi
+
+      cd "$dir"
+
+      BONSAI_FAMILY=bonsai2 \
+      BONSAI_MODEL=27B \
+      BONSAI_OPENWEBUI=0 \
+      BONSAI_CODE_INTERPRETER=0 \
+      exec ./setup.sh
+    '';
+  };
 in
 {
-  environment.systemPackages = [ airllm ];
+  environment.systemPackages = [
+    airllm
+    bonsai
+  ];
 
   sops.secrets.ai_agents_env = {
     sopsFile = ./secrets.yaml;
