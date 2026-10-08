@@ -5,24 +5,6 @@ let
   dotfilesDir = ../dotfiles;
   managedFiles = builtins.attrNames (builtins.readDir dotfilesDir);
   spicePkgs = inputs.spicetify-nix.legacyPackages.${pkgs.stdenv.hostPlatform.system};
-  treefmtConfig = builtins.fromTOML (builtins.readFile ../dotfiles/treefmt/treefmt.toml);
-  treefmtFormatters = treefmtConfig.formatter or { };
-  treefmtGlobal = treefmtConfig.global or { };
-  escapeShellArgs = values: lib.escapeShellArgs (map toString values);
-  treefmtFormatterRules = lib.concatStringsSep "\n" (
-    lib.mapAttrsToList (name: formatter: ''
-      if matches_any "$path" ${escapeShellArgs (formatter.includes or [ ])} \
-        && ! matches_any "$path" ${escapeShellArgs (formatter.excludes or [ ])}; then
-        select_formatter ${lib.escapeShellArg name}
-        select_path "$path"
-      fi
-    '') treefmtFormatters
-  );
-  treefmtPreCommitHook = pkgs.replaceVars ../dotfiles/git-hooks/pre-commit {
-    configHash = builtins.hashFile "sha256" ../dotfiles/treefmt/treefmt.toml;
-    globalExcludes = escapeShellArgs (treefmtGlobal.excludes or [ ]);
-    formatterRules = treefmtFormatterRules;
-  };
 in
 {
   imports = [
@@ -43,10 +25,6 @@ in
       recursive = true;
     };
     ".certificates/ruben.p12".source = config.lib.file.mkOutOfStoreSymlink "/run/secrets/certificado_digital";
-    ".config/git/hooks/pre-commit" = {
-      source = treefmtPreCommitHook;
-      executable = true;
-    };
   };
 
   home.packages = with pkgs; [
@@ -60,7 +38,6 @@ in
     jetbrains.idea
     pkgs.zed-editor
     pkgs.brave
-    treefmt
     pdfpc
 
     grim
@@ -132,7 +109,6 @@ in
       init.defaultBranch = "main";
       pull.rebase = true;
       core.editor = "vim";
-      core.hooksPath = "${config.home.homeDirectory}/.config/git/hooks";
     };
   };
 
