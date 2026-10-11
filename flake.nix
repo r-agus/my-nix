@@ -52,9 +52,11 @@
     };
 
     llm-agents.url = "github:numtide/llm-agents.nix";
+
+    hermes-agent.url = "github:NousResearch/hermes-agent";
   };
 
-  outputs = { self, nixpkgs, sops-nix, home-manager, niri, spicetify-nix, llm-agents,... }@inputs: {
+  outputs = { self, nixpkgs, sops-nix, home-manager, niri, spicetify-nix, llm-agents, hermes-agent, ... }@inputs: {
     nixosConfigurations = {
 
       # PC sobremesa

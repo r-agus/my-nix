@@ -1,96 +1,24 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
-let
-  airllmVersion = "3.3.0";
-  airllmTorchVersion = "2.7.1";
-  airllmTransformersVersion = "5.12.0";
-  airllmUsesCuda = lib.elem "nvidia" config.services.xserver.videoDrivers;
-  airllmBackend = if airllmUsesCuda then "cu118" else "cpu";
-  airllmDevice = if airllmUsesCuda then "cuda:0" else "cpu";
-  airllmTorchWheel =
-    if airllmUsesCuda then
-      "https://download.pytorch.org/whl/cu118/torch-${airllmTorchVersion}%2Bcu118-cp312-cp312-manylinux_2_28_x86_64.whl"
-    else
-      "https://download.pytorch.org/whl/cpu/torch-${airllmTorchVersion}%2Bcpu-cp312-cp312-manylinux_2_28_x86_64.whl";
-  airllm = pkgs.writeShellApplication {
-    name = "airllm";
-    runtimeInputs = [
-      pkgs.coreutils
-      pkgs.util-linux
-      pkgs.uv
-    ];
-    text = ''
-      state_dir="''${XDG_DATA_HOME:-$HOME/.local/share}/airllm"
-      environment_dir="$state_dir/${airllmVersion}-${airllmBackend}-py312"
-      marker="$environment_dir/.nixos-config-ready"
-      expected_marker="${airllmVersion}:${airllmTorchVersion}:${airllmTransformersVersion}:${airllmBackend}:${pkgs.python312}"
-
-      mkdir -p "$state_dir"
-      exec 9>"$state_dir/.bootstrap.lock"
-      flock 9
-
-      current_marker=""
-      if [[ -f "$marker" ]]; then
-        current_marker="$(<"$marker")"
-      fi
-
-      if [[ ! -x "$environment_dir/bin/python" || "$current_marker" != "$expected_marker" ]]; then
-        echo "Preparing AirLLM ${airllmVersion} (${airllmBackend}); only pre-built wheels are allowed..." >&2
-        uv venv --clear --python "${pkgs.python312}/bin/python3" "$environment_dir"
-        UV_PYTHON_DOWNLOADS=never uv pip install \
-          --python "$environment_dir/bin/python" \
-          --only-binary :all: \
-          "airllm==${airllmVersion}" \
-          "torch @ ${airllmTorchWheel}" \
-          "transformers==${airllmTransformersVersion}"
-        printf '%s\n' "$expected_marker" > "$marker"
-      fi
-
-      flock --unlock 9
-
-      # AirLLM is a Python library rather than a CLI. This command is its
-      # isolated Python interpreter; scripts can use AIRLLM_DEVICE directly.
-      export AIRLLM_DEVICE="${airllmDevice}"
-      export LD_LIBRARY_PATH="${lib.makeLibraryPath [ pkgs.stdenv.cc.cc.lib ]}''${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
-      ${lib.optionalString airllmUsesCuda ''
-        export LD_LIBRARY_PATH="/run/opengl-driver/lib''${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
-      ''}
-      exec "$environment_dir/bin/python" "$@"
-    '';
-  };
-
-  bonsai = pkgs.writeShellApplication {
-    name = "bonsai";
-    runtimeInputs = with pkgs; [
-      git
-      gcc
-      python312
-      uv
-      curl
-    ];
-
-    text = ''
-      dir="''${XDG_DATA_HOME:-$HOME/.local/share}/bonsai"
-
-      if [[ ! -d "$dir/.git" ]]; then
-        git clone https://github.com/PrismML-Eng/Bonsai-demo "$dir"
-      fi
-
-      cd "$dir"
-
-      BONSAI_FAMILY=bonsai2 \
-      BONSAI_MODEL=27B \
-      BONSAI_OPENWEBUI=0 \
-      BONSAI_CODE_INTERPRETER=0 \
-      exec ./setup.sh
-    '';
-  };
-in
 {
-  environment.systemPackages = [
-    airllm
-    bonsai
+  imports = [
+    inputs.hermes-agent.nixosModules.default
   ];
+
+  services.hermes-agent = {
+    enable = true;
+    settings = {
+      model = {
+        provider = "openai-codex";
+        default = "gpt-6.1-sol";
+      };
+      agent.reasoning_effort = "medium";
+    };
+    addToSystemPackages = true;
+    environmentFiles = [ config.sops.secrets.ai_agents_env.path ];
+  };
+
+  users.users.ruben.extraGroups = [ "hermes" ];
 
   sops.secrets.ai_agents_env = {
     sopsFile = ./secrets.yaml;
