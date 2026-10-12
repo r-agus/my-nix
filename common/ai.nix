@@ -25,4 +25,10 @@
     owner = "ruben";
     mode = "0400";
   };
+
+  sops.secrets.noether_dev_private_key = {
+    sopsFile = ./secrets.yaml;
+    owner = "ruben";
+    mode = "0400";
+  };
 }
