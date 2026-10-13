@@ -5,29 +5,51 @@
       "id": "auto_eed335ba",
       "name": "",
       "outputs": {
-        "HDMI-A-1": {
-          "mode": "1920x1080@60.000",
+        "eDP-1": {
+          "mode": "1920x1200@60.001",
           "position": {
-            "x": 25400,
+            "x": 0,
+            "y": 240
+          },
+          "scale": 1,
+          "transform": "Normal",
+          "vrr": false,
+          "disabled": true,
+          "niri": {
+            "layout": {
+              "alwaysCenterSingleColumn": true
+            }
+          }
+        },
+        "HDMI-A-1": {
+          "mode": "3440x1440@59.973",
+          "position": {
+            "x": 0,
             "y": 0
           },
           "scale": 1,
           "transform": "Normal",
           "vrr": false,
           "disabled": false,
-          "niri": {}
-        },
-        "eDP-1": {
-          "mode": "1920x1200@60.001",
-          "position": {
-            "x": 27320,
-            "y": 542
-          },
-          "scale": 1,
-          "transform": "Normal",
-          "vrr": false,
-          "disabled": false,
-          "niri": {}
+          "niri": {
+            "layout": {
+              "alwaysCenterSingleColumn": true,
+              "presetColumnWidths": [
+                {
+                  "type": "proportion",
+                  "value": 0.25
+                },
+                {
+                  "type": "proportion",
+                  "value": 0.3333
+                },
+                {
+                  "type": "proportion",
+                  "value": 0.5
+                }
+              ]
+            }
+          }
         }
       }
     },
