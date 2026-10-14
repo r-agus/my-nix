@@ -365,10 +365,10 @@ EOF
   };
 
   # Open ports in the firewall.
-  # Localsend
-  networking.firewall.allowedTCPPorts = [ 53317 ];
-  # Localsend, wireguard
-  networking.firewall.allowedUDPPorts = [ 53317 51820 ];
+  # Localsend, astro
+  networking.firewall.allowedTCPPorts = [ 4322 53317 ];
+  # astro, Localsend, wireguard
+  networking.firewall.allowedUDPPorts = [ 4322 53317 51820 ];
 
   sops.secrets.google_client_id = {
     sopsFile = ./secrets.yaml;

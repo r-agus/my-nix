@@ -20,7 +20,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    autofirma-nix.url = "github:nix-community/autofirma-nix";
+    autofirma-nix.url = "github:nix-community/autofirma-nix/develop";
 
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
 

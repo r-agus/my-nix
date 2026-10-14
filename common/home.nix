@@ -35,7 +35,6 @@ in
     typst
     neovim
     neovide
-    jetbrains.idea
     pkgs.zed-editor
     pkgs.brave
     pdfpc
@@ -50,7 +49,7 @@ in
     davinci-resolve
 
     kdePackages.okular
-    # inputs.autofirma-nix.packages.${pkgs.stdenv.hostPlatform.system}.autofirma
+    inputs.autofirma-nix.packages.${pkgs.stdenv.hostPlatform.system}.autofirma
 
     spotube
     freetube
